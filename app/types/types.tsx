@@ -30,10 +30,10 @@ export type Playback = {
 };
 
 export type TrophyCardProps = {
-  trophy: string;
+  trophy: Trophy;
   active: boolean;
-  justUnlocked: string;
-  dark: string;
+  justUnlocked: boolean;
+  dark: boolean;
 };
 
 export type MusicCardProps = {

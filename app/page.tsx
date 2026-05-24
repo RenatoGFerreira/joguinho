@@ -26,7 +26,7 @@ export default function MoviePops() {
     setCorrectIds((prev) => {
       const next = new Set(prev);
       next.add(songId);
-      const newlyUnlocked = new Set();
+      const newlyUnlocked = new Set<string>();
       TROPHIES.forEach((t) => {
         const wasActive = t.required.every((id) => prev.has(id));
         const isActive = t.required.every((id) => next.has(id));

@@ -225,7 +225,6 @@ export default function MusicCard({
         style={{
           width: "100%",
           height: 40,
-          border: "none",
           borderRadius: 10,
           marginBottom: 10,
           cursor: status === "correct" ? "not-allowed" : "pointer",
