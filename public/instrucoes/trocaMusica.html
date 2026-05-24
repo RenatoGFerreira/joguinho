@@ -1,0 +1,167 @@
+Jeito mais fácil — usando MP3
+1. Crie uma pasta public/audio
+
+No projeto Next.js:
+
+moviepops/
+ ├── app/
+ ├── public/
+ │    └── audio/
+ │         └── minha-musica.mp3
+2. Coloque seu arquivo MP3 lá
+
+Exemplo:
+
+public/audio/evidencias.mp3
+3. Adicione o caminho no objeto Song
+
+Troque:
+
+type Song = {
+  id: number;
+  title: string;
+  artist: string;
+  frequency: number;
+  pattern: number[];
+};
+
+por:
+
+type Song = {
+  id: number;
+  title: string;
+  artist: string;
+  audio: string;
+};
+4. Atualize as músicas
+
+Exemplo:
+
+const SONGS: Song[] = [
+  {
+    id: 1,
+    title: "Evidências",
+    artist: "Chitãozinho & Xororó",
+    audio: "/audio/evidencias.mp3",
+  },
+  {
+    id: 2,
+    title: "Tempo Perdido",
+    artist: "Legião Urbana",
+    audio: "/audio/tempo-perdido.mp3",
+  },
+];
+5. Remova o sistema de Oscillator
+
+Você pode apagar:
+
+playMelody
+Playback
+frequency
+pattern
+
+Tudo isso não será mais necessário.
+
+6. Dentro do MusicCard
+
+Troque:
+
+const audioCtxRef = useRef<AudioContext | null>(null);
+const playbackRef = useRef<Playback | null>(null);
+
+por:
+
+const audioRef = useRef<HTMLAudioElement | null>(null);
+7. Troque a função handleTogglePlay
+
+Substitua tudo por:
+
+const handleTogglePlay = () => {
+  if (status === "correct") return;
+
+  if (!audioRef.current) {
+    audioRef.current = new Audio(song.audio);
+
+    audioRef.current.onended = () => {
+      setIsPlaying(false);
+
+      if (currentlyPlayingRef.current === stopPlayback) {
+        currentlyPlayingRef.current = null;
+      }
+    };
+  }
+
+  if (isPlaying) {
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    setIsPlaying(false);
+
+    if (currentlyPlayingRef.current === stopPlayback) {
+      currentlyPlayingRef.current = null;
+    }
+
+    return;
+  }
+
+  if (
+    currentlyPlayingRef.current &&
+    currentlyPlayingRef.current !== stopPlayback
+  ) {
+    currentlyPlayingRef.current();
+  }
+
+  currentlyPlayingRef.current = stopPlayback;
+
+  audioRef.current.play();
+  setIsPlaying(true);
+};
+8. Atualize o stopPlayback
+
+Troque por:
+
+const stopPlayback = () => {
+  if (audioRef.current) {
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+  }
+
+  setIsPlaying(false);
+};
+Resultado
+
+Agora seu jogo vai:
+
+✅ tocar músicas reais
+✅ funcionar com MP3
+✅ permitir trechos famosos
+✅ ficar MUITO mais parecido com jogos musicais reais
+
+⚠️ Dica importante
+
+Evite usar músicas completas.
+
+Melhor usar:
+
+5 a 15 segundos
+refrão
+introdução
+trecho reconhecível
+
+Porque:
+
+carrega mais rápido
+fica mais divertido
+evita problemas de copyright se publicar
+Dica extra para deixar profissional 🎬
+
+Você pode usar:
+
+fade in/out
+barra de progresso
+waveform real
+cortar automaticamente em 10s
+volume
+efeitos vintage
+ranking online
+
+Aí já vira quase um mini Guitar Hero brasileiro 😄

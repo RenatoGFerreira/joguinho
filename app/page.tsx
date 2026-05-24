@@ -1,65 +1,161 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useRef } from "react";
+
+import { Trophy } from "./types/types";
+import { SONGS, TROPHIES } from "./constants/constants";
+
+import MusicCard from "./components/MusicCard";
+
+import Navbar from "./components/layout/Navbar";
+import HeroSection from "./components/layout/HeroSection";
+import TrophyShelf from "./components/layout/TrophyShelf";
+
+export default function MoviePops() {
+  const [correctIds, setCorrectIds] = useState<Set<number>>(new Set());
+  const [justUnlocked, setJustUnlocked] = useState<Set<string>>(new Set());
+  const [dark, setDark] = useState(true);
+  const currentlyPlayingRef = useRef<(() => void) | null>(null);
+
+  const total = SONGS.length;
+  const correctCount = correctIds.size;
+  const pct = Math.round((correctCount / total) * 100);
+  const isComplete = correctCount === total;
+
+  const handleCorrect = (songId: number) => {
+    setCorrectIds((prev) => {
+      const next = new Set(prev);
+      next.add(songId);
+      const newlyUnlocked = new Set();
+      TROPHIES.forEach((t) => {
+        const wasActive = t.required.every((id) => prev.has(id));
+        const isActive = t.required.every((id) => next.has(id));
+        if (!wasActive && isActive) newlyUnlocked.add(t.id);
+      });
+      if (newlyUnlocked.size > 0) {
+        setJustUnlocked(newlyUnlocked);
+        setTimeout(() => setJustUnlocked(new Set()), 2600);
+      }
+      return next;
+    });
+  };
+
+  const isTrophyActive = (t: Trophy) =>
+    t.required.every((id) => correctIds.has(id));
+
+  const r = 24;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (pct / 100) * circ;
+
+  const bg = dark
+    ? "linear-gradient(160deg,#020617 0%,#0b1120 50%,#020617 100%)"
+    : "linear-gradient(160deg,#f8fafc 0%,#f1f5f9 50%,#e2e8f0 100%)";
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div
+      style={{
+        minHeight: "100vh",
+        background: bg,
+        fontFamily: "'Georgia', 'Times New Roman', serif",
+        boxSizing: "border-box",
+        overflowX: "hidden",
+      }}
+    >
+      <style>{`
+        *, *::before, *::after { box-sizing: border-box; }
+        @keyframes pulse { from { opacity: 0.06; } to { opacity: 0.18; } }
+        @keyframes badgePop { from { transform: scale(0) translateX(-50%); opacity: 0; } to { transform: scale(1) translateX(-50%); opacity: 1; } }
+        @keyframes wave-0 { from { height: 5px; } to { height: 26px; } }
+        @keyframes wave-1 { from { height: 9px; } to { height: 20px; } }
+        @keyframes wave-2 { from { height: 3px; } to { height: 30px; } }
+        @keyframes wave-3 { from { height: 12px; } to { height: 16px; } }
+        @keyframes shimmer { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+        input::placeholder { color: #94a3b8; }
+        input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 3px #3b82f620; }
+        button:hover:not(:disabled) { opacity: 0.85; transform: scale(0.975); }
+        .mp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 14px; }
+        .trophy-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+      `}</style>
+
+      {/* ── Navbar ── */}
+      <Navbar
+        dark={dark}
+        setDark={setDark}
+        pct={pct}
+        isComplete={isComplete}
+        r={r}
+        circ={circ}
+        offset={offset}
+      />
+
+      <HeroSection dark={dark} correctCount={correctCount} total={total} />
+
+      {/* ── Main content ── */}
+      <main
+        style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 20px 56px" }}
+      >
+        {/* Trophy shelf */}
+        <TrophyShelf
+          trophies={TROPHIES}
+          dark={dark}
+          justUnlocked={justUnlocked}
+          isTrophyActive={isTrophyActive}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* Divider */}
+        <div
+          style={{
+            height: 1,
+            background: dark ? "#1e293b" : "#e2e8f0",
+            marginBottom: 28,
+          }}
+        />
+
+        {/* Cards grid */}
+        <div className="mp-grid">
+          {SONGS.map((song) => (
+            <MusicCard
+              key={song.id}
+              song={song}
+              currentlyPlayingRef={currentlyPlayingRef}
+              onCorrect={handleCorrect}
+              dark={dark}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer
+        style={{
+          borderTop: `1px solid ${dark ? "#1e293b" : "#e2e8f0"}`,
+          padding: "16px 20px",
+          textAlign: "center",
+        }}
+      >
+        <p
+  style={{
+    margin: 0,
+    fontSize: 11,
+    color: dark ? "#334155" : "#cbd5e1",
+    fontFamily: "system-ui",
+  }}
+>
+  Criado por:{" "}
+  <a
+    href="https://www.instagram.com/rent.ferreira/"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      color: dark ? "#334155" : "#cbd5e1",
+      textDecoration: "none",
+      fontWeight: 600,
+    }}
+  >
+    rent.ferreira
+  </a>
+</p>
+      </footer>
     </div>
   );
 }
