@@ -120,14 +120,12 @@ export const SONGS: Song[] = [
   {
     id: 12,
     title: [
-      "Tubarão",
-      "Tubarao",
-      "O Tubarão",
-      "Jaws",
+      "Tropa de Elite",
+      "Elite Squad",
     ],
     phrase:
-      "Se você tem mais de 35, definitivamente tinha medo de tubarão na praia!",
-    audio: "/audio/tubarao.mp3",
+      "Cadê o baiano?",
+    audio: "/audio/tropaelite.mp3",
   },
   {
     id: 13,
@@ -166,12 +164,14 @@ export const SONGS: Song[] = [
   {
     id: 16,
     title: [
-      "007",
-      "James Bond",
-      "O James Bond",
+      "Auto da Compadecida",
+      "O auto da compadecida",
+      "A Dog's Will",
+      "A Dogs Will",
+      "Dogs Will"
     ],
-    phrase: "O agente só ficou loiro em 2005.",
-    audio: "/audio/007.mp3",
+    phrase: "Num sei?! Só sei que foi assim!",
+    audio: "/audio/autocompad.mp3",
   },
   {
     id: 17,
@@ -253,6 +253,7 @@ export const SONGS: Song[] = [
     title: [
       "Forrest Gump",
       "O Forrest Gump",
+      "The Forrest Gump"
     ],
     phrase: "Run forrest, RUUUNNN!!!",
     audio: "/audio/forrestgump.mp3",
@@ -309,11 +310,11 @@ export const SONGS: Song[] = [
   {
     id: 30,
     title: [
-      "Kung Fu Panda",
-      "O Kung Fu Panda",
+      "Cidade de Deus",
+      "City of God",
     ],
-    phrase: "... e é por isso que se chama presente!",
-    audio: "/audio/kongfupanda.mp3",
+    phrase: "Pega a galinha ai cumpade!!!",
+    audio: "/audio/cidadedeus.mp3",
   },
   {
     id: 31,
@@ -354,6 +355,7 @@ export const SONGS: Song[] = [
     title: [
       "Up",
       "Up Altas Aventuras",
+      "Altas Aventuras"
     ],
     phrase: "'Sr Wilson?' ou 'Cachorro idiota' de qual frase você lembra mais?",
     audio: "/audio/up.mp3",
@@ -380,14 +382,60 @@ export const SONGS: Song[] = [
     phrase: "Vingadores... Avante!",
     audio: "/audio/vingadores.mp3",
   },
+  {
+    id: 37,
+    title: [
+      "Tubarão",
+      "Tubarao",
+      "O Tubarão",
+      "Jaws",
+    ],
+    phrase:
+      "Se você tem mais de 35, definitivamente tinha medo de tubarão na praia!",
+    audio: "/audio/tubarao.mp3",
+  },
+  {
+    id: 38,
+    title: [
+      "007",
+      "James Bond",
+      "O James Bond",
+    ],
+    phrase: "O agente só ficou loiro em 2005.",
+    audio: "/audio/007.mp3",
+  },
+  {
+    id: 39,
+    title: [
+      "Meu Tio Matou um Cara",
+      "Tio matou um cara",
+      "Uncle Killed a Guy",
+      "My Uncle Killed a Guy"
+    ],
+    phrase: "Spoiler, ele não matou um cara.",
+    audio: "/audio/sorayaqueima.mp3",
+  },
+  {
+    id: 40,
+    title: [
+      "Kung Fu Panda",
+      "O Kung Fu Panda",
+    ],
+    phrase: "... e é por isso que se chama presente!",
+    audio: "/audio/kongfupanda.mp3",
+  },
+  
 ];
 
+
+// Crie um brasão cartunesco com um pequeno abajur articulado de mesa, com corpo metálico e design minimalista no formato de jogos online, no estilo da imagem de referência com o fundo completamente branco e o texto "Fanáticos das Animações"
+// Crie um brasão cartunesco com a cabeca de hans zimmer no formato de jogos online, no estilo da imagem de referência om o fundo completamente branco
 export const TROPHIES: Trophy[] = [
   {
-    id: "mickey",
+    id: "steven",
     name: "Steven Spielberg",
-    required: [12, 14, 17, 27, 29],
-    // required: [1],
+    image: "/images/steventrophy.png",
+    required: [ 14, 17, 27, 29, 37],
     colors: {
       bg: "#fef9c3",
       bgD: "#3a2e00",
@@ -395,42 +443,12 @@ export const TROPHIES: Trophy[] = [
       glow: "#facc15",
       text: "#78350f",
     },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-        <rect
-          x="10"
-          y="18"
-          width="40"
-          height="28"
-          rx="4"
-          fill={active ? "#111" : dark ? "#333" : "#ccc"}
-        />
-    
-        <rect
-          x="10"
-          y="10"
-          width="40"
-          height="10"
-          rx="2"
-          fill={active ? "#eab308" : dark ? "#444" : "#ddd"}
-        />
-    
-        <line x1="18" y1="10" x2="24" y2="20" stroke="#000" strokeWidth="2"/>
-        <line x1="30" y1="10" x2="36" y2="20" stroke="#000" strokeWidth="2"/>
-        <line x1="42" y1="10" x2="48" y2="20" stroke="#000" strokeWidth="2"/>
-    
-        <polygon
-          points="30,26 33,33 40,33 34,37 36,44 30,40 24,44 26,37 20,33 27,33"
-          fill={active ? "#facc15" : dark ? "#666" : "#aaa"}
-        />
-      </svg>
-    )
   },
   {
-    id: "buzz",
+    id: "hans",
     name: "Hans Zimmer",
+    image: "/images/hansZImmer.png",
     required: [5, 18, 25, 26, 28],
-    // required: [1],
     colors: {
       bg: "#e0f2fe",
       bgD: "#0c2a4a",
@@ -438,53 +456,11 @@ export const TROPHIES: Trophy[] = [
       glow: "#38bdf8",
       text: "#0c4a6e",
     },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-    
-        <circle
-          cx="30"
-          cy="18"
-          r="8"
-          fill={active ? "#38bdf8" : dark ? "#555" : "#bbb"}
-        />
-    
-        <rect
-          x="24"
-          y="26"
-          width="12"
-          height="16"
-          rx="4"
-          fill={active ? "#0ea5e9" : dark ? "#444" : "#ccc"}
-        />
-    
-        <line
-          x1="36"
-          y1="24"
-          x2="50"
-          y2="12"
-          stroke={active ? "#facc15" : dark ? "#888" : "#999"}
-          strokeWidth="3"
-        />
-    
-        <path
-          d="M 12 40 Q 20 30 28 40"
-          stroke={active ? "#38bdf8" : dark ? "#666" : "#aaa"}
-          strokeWidth="2"
-          fill="none"
-        />
-    
-        <path
-          d="M 32 40 Q 40 30 48 40"
-          stroke={active ? "#38bdf8" : dark ? "#666" : "#aaa"}
-          strokeWidth="2"
-          fill="none"
-        />
-      </svg>
-    )
   },
   {
-    id: "pernalonga",
+    id: "johnW",
     name: "John Williams",
+    image: "/images/johnwillians.png",
     required: [2, 3, 12, 14, 15, 27, 29],
     colors: {
       bg: "#f3e8ff",
@@ -492,75 +468,12 @@ export const TROPHIES: Trophy[] = [
       border: "#a855f7",
       glow: "#c084fc",
       text: "#581c87",
-    },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-        <ellipse
-          cx="22"
-          cy="16"
-          rx="6"
-          ry="14"
-          fill={active ? "#f3e8ff" : dark ? "#333" : "#ccc"}
-        />
-        <ellipse
-          cx="38"
-          cy="16"
-          rx="6"
-          ry="14"
-          fill={active ? "#f3e8ff" : dark ? "#333" : "#ccc"}
-        />
-        <ellipse
-          cx="22"
-          cy="13"
-          rx="3"
-          ry="10"
-          fill={active ? "#f9a8d4" : dark ? "#2a2a2a" : "#bbb"}
-        />
-        <ellipse
-          cx="38"
-          cy="13"
-          rx="3"
-          ry="10"
-          fill={active ? "#f9a8d4" : dark ? "#2a2a2a" : "#bbb"}
-        />
-        <ellipse
-          cx="30"
-          cy="40"
-          rx="18"
-          ry="16"
-          fill={active ? "#f3e8ff" : dark ? "#3a3a3a" : "#ddd"}
-        />
-        <circle
-          cx="24"
-          cy="37"
-          r="3"
-          fill={active ? "#111" : dark ? "#666" : "#aaa"}
-        />
-        <circle
-          cx="36"
-          cy="37"
-          r="3"
-          fill={active ? "#111" : dark ? "#666" : "#aaa"}
-        />
-        <ellipse
-          cx="30"
-          cy="43"
-          rx="6"
-          ry="3"
-          fill={active ? "#f9a8d4" : dark ? "#333" : "#bbb"}
-        />
-        <circle
-          cx="30"
-          cy="41"
-          r="2"
-          fill={active ? "#f43f5e" : dark ? "#444" : "#aaa"}
-        />
-      </svg>
-    ),
+    }
   },
   {
-    id: "shrek",
+    id: "oldbutgold",
     name: "Old but Gold - Filmes com mais de 40 anos",
+    image: "/images/oldButGold.png",
     required: [2, 4, 6, 9, 10, 12, 13, 14, 15, 19, 31, 32],
     colors: {
       bg: "#dcfce7",
@@ -568,149 +481,25 @@ export const TROPHIES: Trophy[] = [
       border: "#22c55e",
       glow: "#4ade80",
       text: "#14532d",
-    },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-        <ellipse
-          cx="30"
-          cy="36"
-          rx="22"
-          ry="20"
-          fill={active ? "#65a30d" : dark ? "#333" : "#ccc"}
-        />
-        <ellipse
-          cx="30"
-          cy="28"
-          rx="18"
-          ry="16"
-          fill={active ? "#84cc16" : dark ? "#3a3a3a" : "#ddd"}
-        />
-        <ellipse
-          cx="18"
-          cy="16"
-          rx="5"
-          ry="7"
-          fill={active ? "#65a30d" : dark ? "#333" : "#bbb"}
-        />
-        <ellipse
-          cx="42"
-          cy="16"
-          rx="5"
-          ry="7"
-          fill={active ? "#65a30d" : dark ? "#333" : "#bbb"}
-        />
-        <circle
-          cx="23"
-          cy="28"
-          r="4"
-          fill={active ? "#fff" : dark ? "#555" : "#aaa"}
-        />
-        <circle
-          cx="37"
-          cy="28"
-          r="4"
-          fill={active ? "#fff" : dark ? "#555" : "#aaa"}
-        />
-        <circle
-          cx="24"
-          cy="28"
-          r="2.5"
-          fill={active ? "#1a2e1a" : dark ? "#333" : "#888"}
-        />
-        <circle
-          cx="38"
-          cy="28"
-          r="2.5"
-          fill={active ? "#1a2e1a" : dark ? "#333" : "#888"}
-        />
-        <path
-          d="M 23 38 Q 30 44 37 38"
-          stroke={active ? "#4a7c10" : dark ? "#444" : "#aaa"}
-          strokeWidth="2"
-          fill="none"
-        />
-      </svg>
-    ),
+    }
   },
   {
-    id: "donald",
-    name: "Animações",
-    required: [7, 23, 30, 34],
+    id: "animations",
+    name: "Fanáticos das Animações",
+    image: "/images/animations.png",
+    required: [7, 23, 34, 40],
     colors: {
       bg: "#fef9c3",
       bgD: "#2a2000",
       border: "#eab308",
       glow: "#facc15",
       text: "#1e3a8a",
-    },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-        <ellipse
-          cx="30"
-          cy="36"
-          rx="20"
-          ry="18"
-          fill={active ? "#fff" : dark ? "#333" : "#ccc"}
-        />
-        <circle
-          cx="30"
-          cy="20"
-          r="13"
-          fill={active ? "#fff" : dark ? "#3a3a3a" : "#ddd"}
-        />
-        <path
-          d="M 15 24 Q 10 20 8 26 Q 10 30 18 28 Z"
-          fill={active ? "#facc15" : dark ? "#444" : "#bbb"}
-        />
-        <rect
-          x="12"
-          y="48"
-          width="7"
-          height="5"
-          rx="2"
-          fill={active ? "#facc15" : dark ? "#444" : "#bbb"}
-        />
-        <rect
-          x="41"
-          y="48"
-          width="7"
-          height="5"
-          rx="2"
-          fill={active ? "#facc15" : dark ? "#444" : "#bbb"}
-        />
-        <circle
-          cx="25"
-          cy="19"
-          r="2"
-          fill={active ? "#111" : dark ? "#555" : "#aaa"}
-        />
-        <circle
-          cx="37"
-          cy="19"
-          r="2"
-          fill={active ? "#111" : dark ? "#555" : "#aaa"}
-        />
-        <rect
-          x="14"
-          y="30"
-          width="32"
-          height="14"
-          rx="6"
-          fill={active ? "#1d4ed8" : dark ? "#2a2a2a" : "#bbb"}
-        />
-        <ellipse
-          cx="30"
-          cy="30"
-          rx="8"
-          ry="4"
-          fill={active ? "#facc15" : dark ? "#3a3a00" : "#ddd"}
-        />
-      </svg>
-    ),
+    }
   },
   {
-    id: "powerranger",
+    id: "winners",
     name: "Ganhadores de 11 Oscares",
+    image: "/images/titanic.png",
     required: [8, 19],
     colors: {
       bg: "#fee2e2",
@@ -718,49 +507,12 @@ export const TROPHIES: Trophy[] = [
       border: "#ef4444",
       glow: "#f87171",
       text: "#7f1d1d",
-    },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-    
-        <circle
-          cx="30"
-          cy="14"
-          r="6"
-          fill={active ? "#facc15" : dark ? "#666" : "#bbb"}
-        />
-    
-        <rect
-          x="24"
-          y="20"
-          width="12"
-          height="18"
-          rx="5"
-          fill={active ? "#eab308" : dark ? "#555" : "#aaa"}
-        />
-    
-        <rect
-          x="20"
-          y="38"
-          width="20"
-          height="6"
-          rx="2"
-          fill={active ? "#ca8a04" : dark ? "#444" : "#999"}
-        />
-    
-        <rect
-          x="16"
-          y="44"
-          width="28"
-          height="6"
-          rx="2"
-          fill={active ? "#854d0e" : dark ? "#333" : "#777"}
-        />
-      </svg>
-    )
+    }
   },
   {
-    id: "streetfighter",
-    name: "Super-herois",
+    id: "heroes",
+    name: "Mestres dos Super-Heróis",
+    image: "/images/superherois.png",
     required: [15, 18, 36],
     colors: {
       bg: "#fff7ed",
@@ -769,73 +521,18 @@ export const TROPHIES: Trophy[] = [
       glow: "#fb923c",
       text: "#7c2d12",
     },
-    icon: (active, dark) => (
-      <svg viewBox="0 0 60 60" width="40" height="40">
-        <rect
-          x="10"
-          y="8"
-          width="40"
-          height="44"
-          rx="6"
-          fill={active ? "#1d4ed8" : dark ? "#333" : "#ccc"}
-        />
-        <rect
-          x="14"
-          y="12"
-          width="32"
-          height="36"
-          rx="4"
-          fill={active ? "#2563eb" : dark ? "#3a3a3a" : "#ddd"}
-        />
-        <circle
-          cx="30"
-          cy="24"
-          r="8"
-          fill={active ? "#fde68a" : dark ? "#444" : "#bbb"}
-        />
-        <circle
-          cx="27"
-          cy="22"
-          r="2"
-          fill={active ? "#111" : dark ? "#666" : "#999"}
-        />
-        <circle
-          cx="33"
-          cy="22"
-          r="2"
-          fill={active ? "#111" : dark ? "#666" : "#999"}
-        />
-        <path
-          d="M 26 28 Q 30 31 34 28"
-          stroke={active ? "#111" : dark ? "#555" : "#aaa"}
-          strokeWidth="1.5"
-          fill="none"
-        />
-        <rect
-          x="18"
-          y="36"
-          width="10"
-          height="8"
-          rx="3"
-          fill={active ? "#ef4444" : dark ? "#333" : "#bbb"}
-        />
-        <rect
-          x="32"
-          y="36"
-          width="10"
-          height="8"
-          rx="3"
-          fill={active ? "#ef4444" : dark ? "#333" : "#bbb"}
-        />
-        <rect
-          x="16"
-          y="32"
-          width="28"
-          height="6"
-          rx="2"
-          fill={active ? "#facc15" : dark ? "#2a2a00" : "#ddd"}
-        />
-      </svg>
-    ),
+  },
+  {
+    id: "brazuka",
+    name: "Cinema Brazuka",
+    image: "/images/brazuka.png",
+    required: [12, 16, 30, 39],
+    colors: {
+      bg: "#fff7ed",
+      bgD: "#2a1000",
+      border: "#f97316",
+      glow: "#fb923c",
+      text: "#7c2d12",
+    },
   },
 ];

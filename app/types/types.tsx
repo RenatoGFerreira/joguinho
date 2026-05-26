@@ -1,5 +1,4 @@
 "use client";
-import type { ReactNode } from "react";
 
 export type Song = {
   id: number;
@@ -19,9 +18,9 @@ export type TrophyColors = {
 export type Trophy = {
   id: string;
   name: string;
+  image: string;
   required: number[];
   colors: TrophyColors;
-  icon: (active: boolean, dark: boolean) => ReactNode;
 };
 
 export type Playback = {

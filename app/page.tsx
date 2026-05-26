@@ -7,6 +7,7 @@ import MusicCard from "./components/MusicCard";
 import Navbar from "./components/layout/Navbar";
 import HeroSection from "./components/layout/HeroSection";
 import TrophyShelf from "./components/layout/TrophyShelf";
+import Image from "next/image";
 
 const STORAGE_KEY = "moviepops-save";
 
@@ -426,9 +427,23 @@ export default function MoviePops() {
                 border: `2px solid ${trophy.colors.border}`,
 
                 flexShrink: 0,
+
+                overflow: "hidden",
               }}
             >
-              {trophy.icon(true, dark)}
+              <Image
+                src={trophy.image}
+                alt={trophy.name}
+                width={54}
+                height={54}
+                style={{
+                  objectFit: "contain",
+
+                  filter: dark
+                    ? "drop-shadow(0 0 10px rgba(255,255,255,.15))"
+                    : "drop-shadow(0 0 10px rgba(0,0,0,.12))",
+                }}
+              />
             </div>
 
             <div
