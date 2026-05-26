@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export type Song = {
   id: number;
   title: string[];
-  artist: string;
+  phrase: string;
   audio: string;
 };
 
@@ -41,4 +41,5 @@ export type MusicCardProps = {
   currentlyPlayingRef: React.MutableRefObject<(() => void) | null>;
   onCorrect: (songId: number) => void;
   dark: boolean;
+  isCorrect: boolean;
 };

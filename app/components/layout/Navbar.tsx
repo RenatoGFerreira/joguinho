@@ -68,7 +68,7 @@ export default function Navbar({
                 textTransform: "uppercase",
               }}
             >
-              Adivinhe a música
+              Adivinhe o filme pelo som
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, useEffect, type ChangeEvent } from "react";
 import { MusicCardProps } from "../types/types";
 import { normalizeText } from "../utils/normalize";
 
@@ -8,11 +8,24 @@ export default function MusicCard({
   currentlyPlayingRef,
   onCorrect,
   dark,
+  isCorrect,
 }: MusicCardProps) {
-  const [status, setStatus] = useState("idle");
-  const [input, setInput] = useState("");
+  const [status, setStatus] = useState(() => (isCorrect ? "correct" : "idle"));
+  const [input, setInput] = useState(() => (isCorrect ? song.title[0] : ""));
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (isCorrect) {
+      setStatus("correct");
+      setInput(song.title[0]);
+    } else {
+      setStatus("idle");
+      setInput("");
+      setIsPlaying(false);
+    }
+  }, [isCorrect, song.title]);
+
   const stopPlayback = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -21,6 +34,7 @@ export default function MusicCard({
 
     setIsPlaying(false);
   };
+
   const handleTogglePlay = () => {
     if (status === "correct") return;
 
@@ -39,6 +53,7 @@ export default function MusicCard({
     if (isPlaying) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+
       setIsPlaying(false);
 
       if (currentlyPlayingRef.current === stopPlayback) {
@@ -58,31 +73,32 @@ export default function MusicCard({
     currentlyPlayingRef.current = stopPlayback;
 
     audioRef.current.play();
+
     setIsPlaying(true);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-  
+
     setInput(val);
-  
+
     if (status === "correct") return;
-  
-    const isCorrect = song.title.some(
+
+    const answerIsCorrect = song.title.some(
       (t) => normalizeText(t) === normalizeText(val)
     );
-  
+
     const maxTitleLength = Math.max(...song.title.map((t) => t.length));
-  
-    if (isCorrect) {
+
+    if (answerIsCorrect) {
       setStatus("correct");
-  
+
       stopPlayback();
-  
+
       if (currentlyPlayingRef.current === stopPlayback) {
         currentlyPlayingRef.current = null;
       }
-  
+
       onCorrect(song.id);
     } else if (val.length >= maxTitleLength) {
       setStatus("wrong");
@@ -92,22 +108,23 @@ export default function MusicCard({
   };
 
   const D = dark;
+
   const cardBg =
     status === "correct"
       ? D
         ? "#052e16"
-        : "#f0fdf4"
+        : "#ecfdf5"
       : status === "wrong"
       ? D
-        ? "#3b0a0a"
-        : "#fff5f5"
+        ? "#450a0a"
+        : "#fee2e2"
       : isPlaying
       ? D
-        ? "#0f1f3d"
-        : "#eff6ff"
+        ? "#1e3a8a"
+        : "#dbeafe"
       : D
       ? "#1e293b"
-      : "#ffffff";
+      : "#eff6ff";
 
   const cardBorder =
     status === "correct"
@@ -115,10 +132,8 @@ export default function MusicCard({
       : status === "wrong"
       ? "#ef4444"
       : isPlaying
-      ? "#3b82f6"
-      : D
-      ? "#334155"
-      : "#e2e8f0";
+      ? "#60a5fa"
+      : "#2563eb";
 
   const waveColor =
     status === "correct"
@@ -126,93 +141,278 @@ export default function MusicCard({
       : status === "wrong"
       ? "#ef4444"
       : isPlaying
-      ? "#3b82f6"
-      : D
-      ? "#334155"
-      : "#cbd5e1";
+      ? "#60a5fa"
+      : "#2563eb";
 
   return (
     <div
       style={{
-        border: `1.5px solid ${cardBorder}`,
-        borderRadius: 16,
-        padding: "16px",
-        background: cardBg,
+        width: 230,
+        aspectRatio: "3 / 4",
+        border: `1px solid ${cardBorder}`,
+        borderRadius: 20,
+        padding: "18px 16px",
+
+        background:
+          status === "correct"
+            ? `
+              linear-gradient(
+                180deg,
+                ${D ? "#14532d" : "#dcfce7"} 0%,
+                ${cardBg} 100%
+              )
+            `
+            : status === "wrong"
+            ? `
+              linear-gradient(
+                180deg,
+                ${D ? "#7f1d1d" : "#fecaca"} 0%,
+                ${cardBg} 100%
+              )
+            `
+            : isPlaying
+            ? `
+              linear-gradient(
+                180deg,
+                ${D ? "#1d4ed8" : "#bfdbfe"} 0%,
+                ${cardBg} 100%
+              )
+            `
+            : `
+              linear-gradient(
+                180deg,
+                ${D ? "#334155" : "#dbeafe"} 0%,
+                ${cardBg} 100%
+              )
+            `,
+
         position: "relative",
         overflow: "hidden",
-        transition: "all 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-        transform: status === "correct" ? "scale(1.02)" : "scale(1)",
-        boxShadow: isPlaying
-          ? `0 4px 24px #3b82f622`
-          : status === "correct"
-          ? `0 4px 20px #22c55e22`
-          : "0 1px 4px #0001",
+
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+
+        transform:
+          status === "correct"
+            ? "perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.03)"
+            : "perspective(1000px) rotateX(4deg) rotateY(-5deg)",
+
+        transition: "all 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+
+        boxShadow:
+          status === "correct"
+            ? "0 18px 40px rgba(34,197,94,0.35)"
+            : status === "wrong"
+            ? "0 18px 40px rgba(239,68,68,0.30)"
+            : isPlaying
+            ? "0 18px 40px rgba(59,130,246,0.35)"
+            : "0 14px 30px rgba(37,99,235,0.20)",
+
+        cursor: "pointer",
       }}
     >
+      {/* Glow cartoon */}
+      <div
+        style={{
+          position: "absolute",
+          top: -40,
+          right: -40,
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          background:
+            status === "correct"
+              ? "#22c55e55"
+              : status === "wrong"
+              ? "#ef444455"
+              : isPlaying
+              ? "#60a5fa66"
+              : "#2563eb44",
+          filter: "blur(30px)",
+        }}
+      />
+
+      {/* brilho/sticker */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: 20,
+          border: "3px solid rgba(255,255,255,0.15)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* shine */}
+      <div
+        style={{
+          position: "absolute",
+          top: -100,
+          left: -40,
+          width: 120,
+          height: 300,
+          background: "rgba(255,255,255,0.12)",
+          transform: "rotate(25deg)",
+        }}
+      />
+
+      {/* Avatar/Icon */}
+      <div
+        style={{
+          width: 82,
+          height: 82,
+          borderRadius: "50%",
+          margin: "0 auto 14px auto",
+
+          background: `
+            linear-gradient(
+              135deg,
+              ${
+                status === "correct"
+                  ? "#22c55e"
+                  : status === "wrong"
+                  ? "#ef4444"
+                  : isPlaying
+                  ? "#3b82f6"
+                  : "#2563eb"
+              },
+              ${D ? "#0f172a" : "#ffffff"}
+            )
+          `,
+
+          border: "1px solid white",
+
+          boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+
+          fontSize: 34,
+
+          position: "relative",
+          zIndex: 2,
+
+          transform: "rotate(-4deg)",
+        }}
+      >
+        🎵
+      </div>
+
       {/* Status badge */}
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: 10,
-          minHeight: 22,
+          justifyContent: "center",
+          marginBottom: 12,
+          minHeight: 52,
+          position: "relative",
+          zIndex: 15,
+          padding: "0 2px",
         }}
       >
         {status === "correct" && (
           <span
             style={{
               background: D ? "#14532d" : "#dcfce7",
-              border: `1px solid #22c55e`,
-              borderRadius: 20,
-              padding: "2px 10px",
+
+              border: `2px solid #22c55e`,
+
+              borderRadius: 16,
+
+              padding: "8px 12px",
+
               fontSize: 11,
-              fontWeight: 700,
+              fontWeight: 800,
+
               color: D ? "#86efac" : "#15803d",
+
               animation: "badgePop 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+
+              transform: "rotate(-2deg)",
+
+              width: "100%",
+              maxWidth: "100%",
+
+              textAlign: "center",
+
+              lineHeight: 1.35,
+
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+
+              whiteSpace: "normal",
+
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+
+              minHeight: 42,
+
+              boxShadow: "0 8px 18px rgba(34,197,94,0.22)",
+
+              position: "relative",
+
+              zIndex: 20,
             }}
           >
-            ✓ {song.artist}
+            ✓ {song.phrase}
           </span>
         )}
+
         {status === "wrong" && (
           <span
             style={{
               background: D ? "#450a0a" : "#fee2e2",
-              border: `1px solid #ef4444`,
-              borderRadius: 20,
-              padding: "2px 10px",
+
+              border: `2px solid #ef4444`,
+
+              borderRadius: 999,
+
+              padding: "4px 12px",
+
               fontSize: 11,
-              fontWeight: 700,
+              fontWeight: 800,
+
               color: D ? "#fca5a5" : "#b91c1c",
+
+              transform: "rotate(2deg)",
+
+              position: "relative",
+              zIndex: 20,
             }}
           >
             ✗ Tente novamente
           </span>
         )}
       </div>
+
       {/* Waveform */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 3,
-          height: 34,
-          marginBottom: 12,
+          gap: 4,
+          height: 48,
+          marginBottom: 18,
           justifyContent: "center",
+          zIndex: 2,
         }}
       >
-        {[8, 18, 12, 24, 10, 20, 14, 26, 16].map((h, i) => (
+        {[10, 20, 14, 28, 12, 24, 16, 30, 18].map((h, i) => (
           <div
             key={i}
             style={{
-              width: 4,
-              height: isPlaying ? `${h}px` : "5px",
+              width: 6,
+              height: isPlaying ? `${h}px` : "8px",
               background: waveColor,
-              borderRadius: 2,
+              borderRadius: 999,
               transition: `height ${0.07 + i * 0.02}s ease-in-out`,
               animation: isPlaying
                 ? `wave-${i % 4} 0.5s ease-in-out infinite alternate`
                 : "none",
+              boxShadow: `0 0 10px ${waveColor}55`,
             }}
           />
         ))}
@@ -224,51 +424,51 @@ export default function MusicCard({
         disabled={status === "correct"}
         style={{
           width: "100%",
-          height: 40,
+          height: 48,
           borderRadius: 10,
           marginBottom: 10,
+
           cursor: status === "correct" ? "not-allowed" : "pointer",
+
           background:
             status === "correct"
-              ? D
-                ? "#15803d33"
-                : "#dcfce7"
+              ? "#22c55e"
+              : status === "wrong"
+              ? "#ef4444"
               : isPlaying
-              ? D
-                ? "#ef444420"
-                : "#fee2e2"
-              : D
-              ? "#2563eb"
+              ? "#3b82f6"
               : "#2563eb",
-          color:
-            status === "correct"
-              ? D
-                ? "#4ade80"
-                : "#15803d"
-              : isPlaying
-              ? D
-                ? "#ef4444"
-                : "#dc2626"
-              : "#fff",
-          fontSize: 13,
-          fontWeight: 700,
+
+          color: "#fff",
+
+          fontSize: 15,
+          fontWeight: 800,
+
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 7,
-          transition: "all 0.2s",
-          letterSpacing: "0.04em",
-          border:
+          gap: 8,
+
+          transition: "all 0.25s ease",
+
+          border: "none",
+
+          boxShadow:
             status === "correct"
-              ? `1px solid ${D ? "#15803d" : "#86efac"}`
+              ? "0 8px 18px rgba(34,197,94,0.35)"
+              : status === "wrong"
+              ? "0 8px 18px rgba(239,68,68,0.35)"
               : isPlaying
-              ? `1px solid ${D ? "#ef4444" : "#fca5a5"}`
-              : "none",
+              ? "0 8px 18px rgba(59,130,246,0.35)"
+              : "0 8px 18px rgba(37,99,235,0.35)",
+
+          transform: isPlaying ? "scale(1.02)" : "scale(1)",
         }}
       >
-        <span style={{ fontSize: 16, lineHeight: 1 }}>
+        <span style={{ fontSize: 18, lineHeight: 1 }}>
           {isPlaying ? "■" : "▶"}
         </span>
+
         {status === "correct" ? "Acertou!" : isPlaying ? "Parar" : "Ouvir"}
       </button>
 
@@ -280,8 +480,9 @@ export default function MusicCard({
         placeholder={status === "correct" ? song.title[0] : "Nome da música..."}
         style={{
           width: "100%",
-          height: 38,
+          height: 44,
           boxSizing: "border-box",
+
           background:
             status === "correct"
               ? D
@@ -293,17 +494,22 @@ export default function MusicCard({
                 : "#fff5f5"
               : D
               ? "#0f172a"
-              : "#f8fafc",
-          border: `1.5px solid ${
+              : "#ffffff",
+
+          border: `2px solid ${
             status === "correct"
               ? "#22c55e"
               : status === "wrong"
               ? "#ef4444"
+              : isPlaying
+              ? "#60a5fa"
               : D
-              ? "#334155"
-              : "#e2e8f0"
+              ? "#475569"
+              : "#cbd5e1"
           }`,
-          borderRadius: 8,
+
+          borderRadius: 10,
+
           color:
             status === "correct"
               ? D
@@ -314,13 +520,21 @@ export default function MusicCard({
                 ? "#fca5a5"
                 : "#b91c1c"
               : D
-              ? "#e2e8f0"
-              : "#1e293b",
-          fontSize: 13,
-          padding: "0 12px",
+              ? "#f1f5f9"
+              : "#0f172a",
+
+          fontSize: 14,
+          fontWeight: 700,
+
+          padding: "0 14px",
+
           outline: "none",
-          transition: "all 0.3s",
+
+          transition: "all 0.25s ease",
+
           fontFamily: "inherit",
+
+          boxShadow: "inset 0 2px 6px rgba(0,0,0,0.08)",
         }}
       />
     </div>
