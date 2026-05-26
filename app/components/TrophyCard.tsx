@@ -62,7 +62,7 @@ export default function TrophyCard({
         width: 112,
         minHeight: 300,
 
-        margin: "5px",
+        margin: "9px",
         padding: "14px 10px 16px 10px",
 
         borderRadius: 32,
@@ -454,9 +454,10 @@ export default function TrophyCard({
       </span>
 
       {/* PROGRESS */}
-      <div
+      {/* <div
         style={{
           display: "flex",
+          border: "1px solid red",
           flexWrap: "wrap",
           justifyContent: "center",
           gap: 6,
@@ -552,7 +553,7 @@ export default function TrophyCard({
             +{trophy.required.length - 6}
           </span>
         )}
-      </div>
+      </div> */}
 
       {/* PARTICLES */}
       {active && (

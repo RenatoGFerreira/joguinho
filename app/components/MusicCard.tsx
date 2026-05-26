@@ -477,7 +477,7 @@ export default function MusicCard({
         value={input}
         onChange={handleInputChange}
         disabled={status === "correct"}
-        placeholder={status === "correct" ? song.title[0] : "Nome da música..."}
+        placeholder={status === "correct" ? song.title[0] : "Nome do filme..."}
         style={{
           width: "100%",
           height: 44,
