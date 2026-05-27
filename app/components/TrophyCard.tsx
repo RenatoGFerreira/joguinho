@@ -59,6 +59,7 @@ export default function TrophyCard({
       onMouseLeave={() => setHover(false)}
       style={{
         position: "relative",
+
         width: 112,
         minHeight: 300,
 
@@ -113,6 +114,7 @@ export default function TrophyCard({
           <div
             style={{
               position: "absolute",
+
               top: -90,
               left: "50%",
 
@@ -154,32 +156,40 @@ export default function TrophyCard({
 
       {/* SHINE */}
       <div
-  style={{
-    position: "absolute",
-    inset: 0,
-    overflow: "hidden",
-    borderRadius: 32, 
-    pointerEvents: "none",
-  }}
->
-  <div
-    style={{
-      position: "absolute",
-      top: -120,
-      left: -20,
-      width: 80,
-      height: 400,
-      background: "rgba(255,255,255,.08)",
-      transform: "rotate(22deg)",
-    }}
-  />
-</div>
+        style={{
+          position: "absolute",
+          inset: 0,
+
+          overflow: "hidden",
+
+          borderRadius: 32,
+
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+
+            top: -120,
+            left: -20,
+
+            width: 80,
+            height: 400,
+
+            background: "rgba(255,255,255,.08)",
+
+            transform: "rotate(22deg)",
+          }}
+        />
+      </div>
 
       {/* UNLOCKED */}
       {justUnlocked && (
         <div
           style={{
             position: "absolute",
+
             top: 12,
             left: "50%",
 
@@ -201,6 +211,7 @@ export default function TrophyCard({
 
             fontSize: 9,
             fontWeight: 900,
+
             letterSpacing: ".08em",
 
             boxShadow: `
@@ -218,6 +229,7 @@ export default function TrophyCard({
       <div
         style={{
           position: "absolute",
+
           top: 12,
           right: 12,
 
@@ -255,7 +267,7 @@ export default function TrophyCard({
         {trophy.required.length}
       </div>
 
-      {/* ===== EMBLEM ===== */}
+      {/* EMBLEM */}
       <div
         style={{
           position: "relative",
@@ -343,6 +355,7 @@ export default function TrophyCard({
         <div
           style={{
             position: "relative",
+
             width: 140,
             height: 140,
 
@@ -358,21 +371,28 @@ export default function TrophyCard({
                 drop-shadow(0 10px 20px rgba(0,0,0,.45))
               `
               : "grayscale(1) brightness(.55)",
+
+            overflow: "hidden",
           }}
         >
-          {/* IMAGE */}
           <Image
             src={trophy.image}
             alt={trophy.name}
             fill
             priority
+
+            // CORREÇÃO DO WARNING DO NEXT
+            sizes="140px"
+
             style={{
               objectFit: "cover",
+
               transform: hover
                 ? "scale(1.18) translateY(-4px)"
                 : "scale(1)",
 
               transition: "all .35s ease",
+
               zIndex: hover ? 50 : 1,
             }}
           />
@@ -410,6 +430,7 @@ export default function TrophyCard({
 
           fontSize: 9,
           fontWeight: 900,
+
           letterSpacing: ".14em",
 
           textTransform: "uppercase",
@@ -433,6 +454,7 @@ export default function TrophyCard({
           fontWeight: 900,
 
           lineHeight: 1.3,
+
           letterSpacing: ".04em",
 
           textAlign: "center",
@@ -453,114 +475,13 @@ export default function TrophyCard({
         {trophy.name}
       </span>
 
-      {/* PROGRESS */}
-      {/* <div
-        style={{
-          display: "flex",
-          border: "1px solid red",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: 6,
-          marginTop: 16,
-          zIndex: 4,
-        }}
-      >
-        {trophy.required.slice(0, 6).map((n) => (
-          <span
-            key={n}
-            style={{
-              minWidth: 26,
-              height: 24,
-
-              padding: "0 8px",
-
-              borderRadius: 999,
-
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-
-              background: active
-                ? trophy.colors.border + "18"
-                : dark
-                ? "#111827"
-                : "#e2e8f0",
-
-              border: `1px solid ${
-                active
-                  ? trophy.colors.border + "44"
-                  : dark
-                  ? "#334155"
-                  : "#cbd5e1"
-              }`,
-
-              color: active
-                ? trophy.colors.border
-                : dark
-                ? "#64748b"
-                : "#94a3b8",
-
-              fontSize: 8,
-              fontWeight: 900,
-
-              boxShadow: active
-                ? `0 0 10px ${trophy.colors.glow}22`
-                : "none",
-            }}
-          >
-            #{n}
-          </span>
-        ))}
-
-        {trophy.required.length > 6 && (
-          <span
-            style={{
-              minWidth: 26,
-              height: 24,
-
-              padding: "0 8px",
-
-              borderRadius: 999,
-
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-
-              background: active
-                ? trophy.colors.border + "18"
-                : dark
-                ? "#111827"
-                : "#e2e8f0",
-
-              border: `1px solid ${
-                active
-                  ? trophy.colors.border + "44"
-                  : dark
-                  ? "#334155"
-                  : "#cbd5e1"
-              }`,
-
-              color: active
-                ? trophy.colors.border
-                : dark
-                ? "#64748b"
-                : "#94a3b8",
-
-              fontSize: 8,
-              fontWeight: 900,
-            }}
-          >
-            +{trophy.required.length - 6}
-          </span>
-        )}
-      </div> */}
-
       {/* PARTICLES */}
       {active && (
         <>
           <div
             style={{
               position: "absolute",
+
               top: 70,
               left: 30,
 
@@ -582,6 +503,7 @@ export default function TrophyCard({
           <div
             style={{
               position: "absolute",
+
               top: 120,
               right: 28,
 

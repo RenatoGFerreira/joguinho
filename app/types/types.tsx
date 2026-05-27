@@ -4,6 +4,7 @@ export type Song = {
   id: number;
   title: string[];
   phrase: string;
+  tip: string;
   audio: string;
 };
 
@@ -41,4 +42,25 @@ export type MusicCardProps = {
   onCorrect: (songId: number) => void;
   dark: boolean;
   isCorrect: boolean;
+  isHintUsed: boolean;
+  onUseHint: () => void;
+};
+
+export type SaveData = {
+  version: number;
+  correctIds: number[];
+  usedHintIds: number[];
+  dark: boolean;
+  showTrophies: boolean;
+  lastPlayedAt: number;
+};
+
+export type NavbarProps = {
+  dark: boolean;
+  setDark: React.Dispatch<React.SetStateAction<boolean>>;
+  pct: number;
+  isComplete: boolean;
+  r: number;
+  circ: number;
+  offset: number;
 };

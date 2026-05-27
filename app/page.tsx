@@ -1,36 +1,22 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Trophy } from "./types/types";
+import Image from "next/image";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Trophy, SaveData } from "./types/types";
 import { SONGS, TROPHIES } from "./constants/constants";
 import MusicCard from "./components/MusicCard";
 import Navbar from "./components/layout/Navbar";
 import HeroSection from "./components/layout/HeroSection";
 import TrophyShelf from "./components/layout/TrophyShelf";
-import Image from "next/image";
+import Footer from "./components/Footer";
 
 const STORAGE_KEY = "moviepops-save";
 
-type SaveData = {
-  version: number;
-  correctIds: number[];
-  dark: boolean;
-  lastPlayedAt: number;
-};
-
 function getSavedGame(): SaveData | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
+  if (typeof window === "undefined") return null;
   try {
     const save = localStorage.getItem(STORAGE_KEY);
-
-    if (!save) {
-      return null;
-    }
-
-    return JSON.parse(save);
+    return save ? JSON.parse(save) : null;
   } catch (err) {
     console.error("Erro ao carregar save:", err);
     return null;
@@ -38,111 +24,118 @@ function getSavedGame(): SaveData | null {
 }
 
 export default function MoviePops() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [correctIds, setCorrectIds] = useState<Set<number>>(new Set());
+  const [usedHintIds, setUsedHintIds] = useState<Set<number>>(new Set());
+  const [dark, setDark] = useState(true);
+  const [showTrophies, setShowTrophies] = useState(true);
   const [justUnlocked, setJustUnlocked] = useState<Set<string>>(new Set());
+  const [unlockNotifications, setUnlockNotifications] = useState<Trophy[]>([]);
+
+  const handleUseHint = useCallback((songId: number) => {
+    setUsedHintIds((prev) => new Set(prev).add(songId));
+  }, []);
 
   const currentlyPlayingRef = useRef<(() => void) | null>(null);
 
-  const [correctIds, setCorrectIds] = useState<Set<number>>(() => {
+  useEffect(() => {
     const save = getSavedGame();
+    if (save) {
+      setCorrectIds(new Set(save.correctIds));
+      setUsedHintIds(new Set(save.usedHintIds || []));
+      setDark(save.dark);
+      setShowTrophies(save.showTrophies);
+    }
+    setIsMounted(true);
+  }, []);
 
-    return new Set(save?.correctIds || []);
-  });
+  useEffect(() => {
+    if (!isMounted) return;
+    const saveData: SaveData = {
+      version: 1,
+      correctIds: Array.from(correctIds),
+      usedHintIds: Array.from(usedHintIds),
+      dark,
+      showTrophies,
+      lastPlayedAt: Date.now(),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
+  }, [correctIds, usedHintIds, dark, showTrophies, isMounted]);
 
-  const [dark, setDark] = useState(() => {
-    const save = getSavedGame();
-
-    return typeof save?.dark === "boolean" ? save.dark : true;
-  });
-  const [unlockNotifications, setUnlockNotifications] = useState<Trophy[]>([]);
+  if (!isMounted) return null;
 
   const total = SONGS.length;
   const correctCount = correctIds.size;
   const pct = Math.round((correctCount / total) * 100);
   const isComplete = correctCount === total;
 
+  const r = 24;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (pct / 100) * circ;
+  const bg = dark
+    ? "linear-gradient(160deg,#020617 0%,#0b1120 50%,#020617 100%)"
+    : "linear-gradient(160deg,#f8fafc 0%,#f1f5f9 50%,#e2e8f0 100%)";
+
   const handleCorrect = (songId: number) => {
     setCorrectIds((prev) => {
       const next = new Set(prev);
       next.add(songId);
-      const newlyUnlocked = new Set<string>();
 
+      const newlyUnlocked = new Set<string>();
       TROPHIES.forEach((t) => {
         const wasActive = t.required.every((id) => prev.has(id));
         const isActive = t.required.every((id) => next.has(id));
-
-        if (!wasActive && isActive) {
-          newlyUnlocked.add(t.id);
-        }
+        if (!wasActive && isActive) newlyUnlocked.add(t.id);
       });
 
       if (newlyUnlocked.size > 0) {
         setJustUnlocked(newlyUnlocked);
-
         const unlockedTrophies = TROPHIES.filter((t) =>
           newlyUnlocked.has(t.id)
         );
-
         setUnlockNotifications(unlockedTrophies);
-
         setTimeout(() => {
           setJustUnlocked(new Set());
           setUnlockNotifications([]);
         }, 3500);
       }
-
       return next;
     });
   };
 
   const isTrophyActive = (t: Trophy) =>
     t.required.every((id) => correctIds.has(id));
-
-  const r = 24;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (pct / 100) * circ;
-
-  const bg = dark
-    ? "linear-gradient(160deg,#020617 0%,#0b1120 50%,#020617 100%)"
-    : "linear-gradient(160deg,#f8fafc 0%,#f1f5f9 50%,#e2e8f0 100%)";
-
-  useEffect(() => {
-    const saveData: SaveData = {
-      version: 1,
-      correctIds: Array.from(correctIds),
-      dark,
-      lastPlayedAt: Date.now(),
-    };
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
-  }, [correctIds, dark]);
+  // const handleUseHint = (songId: number) => {
+  //   setUsedHintIds((prev) => new Set(prev).add(songId));
+  // };
+  
 
   const handleResetProgress = () => {
-    const confirmReset = window.confirm(
-      "Tem certeza que deseja limpar todo o progresso?"
-    );
-
-    if (!confirmReset) {
-      return;
+    if (window.confirm("Tem certeza que deseja limpar todo o progresso?")) {
+      setCorrectIds(new Set());
+      setJustUnlocked(new Set());
+      setUsedHintIds(new Set());
+      localStorage.removeItem(STORAGE_KEY);
     }
-
-    setCorrectIds(new Set());
-    setJustUnlocked(new Set());
-
-    localStorage.removeItem(STORAGE_KEY);
   };
-
   return (
     <div
       style={{
         minHeight: "100vh",
+
         background: bg,
+
         fontFamily: "inherit",
+
         boxSizing: "border-box",
+
         overflowX: "hidden",
       }}
     >
       <style>{`
-        *, *::before, *::after { box-sizing: border-box; }
+        *, *::before, *::after {
+          box-sizing: border-box;
+        }
 
         @keyframes pulse {
           from { opacity: 0.06; }
@@ -186,6 +179,18 @@ export default function MoviePops() {
           50% { opacity:0.6; }
         }
 
+        @keyframes trophyExpand {
+          from {
+            opacity: 0;
+            transform: translateY(-14px) scale(.96);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0px) scale(1);
+          }
+        }
+
         input::placeholder {
           color: #94a3b8;
         }
@@ -197,29 +202,31 @@ export default function MoviePops() {
 
         button:hover:not(:disabled) {
           opacity: 0.85;
-          transform: scale(0.975);
         }
 
         .mp-grid {
-  display: grid;
+          display: grid;
 
-  grid-template-columns:
-    repeat(auto-fit, minmax(230px, 230px));
+          grid-template-columns:
+            repeat(auto-fit, minmax(230px, 230px));
 
-  justify-content: center;
+          justify-content: center;
 
-  gap: 25px;
-}
+          gap: 25px;
+        }
 
         .trophy-row {
           display: flex;
+
           flex-wrap: wrap;
+
           justify-content: center;
+
           gap: 12px;
         }
       `}</style>
 
-      {/* ── Navbar ── */}
+      {/* Navbar */}
       <Navbar
         dark={dark}
         setDark={setDark}
@@ -232,32 +239,166 @@ export default function MoviePops() {
 
       <HeroSection dark={dark} correctCount={correctCount} total={total} />
 
-      {/* ── Main content ── */}
+      {/* Main */}
       <main
         style={{
           maxWidth: 1100,
+
           margin: "0 auto",
+
           padding: "28px 20px 56px",
         }}
       >
-        {/* Trophy shelf */}
-        <TrophyShelf
-          trophies={TROPHIES}
-          dark={dark}
-          justUnlocked={justUnlocked}
-          isTrophyActive={isTrophyActive}
-        />
-
-        {/* Divider */}
+        {/* HEADER TROFÉUS */}
         <div
           style={{
-            height: 1,
-            background: dark ? "#1e293b" : "#e2e8f0",
-            marginBottom: 28,
-          }}
-        />
+            display: "flex",
 
-        {/* Cards grid */}
+            alignItems: "center",
+
+            justifyContent: "space-between",
+
+            gap: 12,
+
+            marginBottom: 18,
+
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <h2
+              style={{
+                margin: 0,
+
+                fontSize: 24,
+
+                fontWeight: 900,
+
+                color: dark ? "#fff" : "#0f172a",
+              }}
+            >
+              🏆 Troféus
+            </h2>
+
+            <span
+              style={{
+                fontSize: 13,
+
+                color: dark ? "#94a3b8" : "#64748b",
+              }}
+            >
+              {TROPHIES.filter(isTrophyActive).length} desbloqueados
+            </span>
+          </div>
+
+          {/* BOTÃO MOSTRAR/ESCONDER */}
+          <button
+            onClick={() => setShowTrophies((prev) => !prev)}
+            style={{
+              height: 46,
+
+              padding: "0 18px",
+
+              borderRadius: 14,
+
+              border: `1px solid ${dark ? "#334155" : "#cbd5e1"}`,
+
+              background: dark
+                ? "linear-gradient(180deg,#1e293b,#0f172a)"
+                : "linear-gradient(180deg,#ffffff,#f1f5f9)",
+
+              color: dark ? "#f8fafc" : "#0f172a",
+
+              fontWeight: 800,
+
+              fontSize: 14,
+
+              cursor: "pointer",
+
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+
+              transition: "all .25s cubic-bezier(0.34,1.56,0.64,1)",
+
+              boxShadow: dark
+                ? "0 10px 24px rgba(0,0,0,.28)"
+                : "0 10px 20px rgba(0,0,0,.08)",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 16,
+              }}
+            >
+              {showTrophies ? "🙈" : "👀"}
+            </span>
+
+            {showTrophies ? "Esconder troféus" : "Mostrar troféus"}
+          </button>
+        </div>
+
+        {/* TROPHY SHELF */}
+        <div
+          style={{
+            display: "grid",
+
+            gridTemplateRows: showTrophies ? "1fr" : "0fr",
+
+            opacity: showTrophies ? 1 : 0,
+
+            transition:
+              "grid-template-rows .45s cubic-bezier(.34,1.56,.64,1), opacity .28s ease",
+
+            marginBottom: showTrophies ? 28 : 0,
+          }}
+        >
+          <div
+            style={{
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                transform: showTrophies
+                  ? "translateY(0px) scale(1)"
+                  : "translateY(-18px) scale(.96)",
+
+                filter: showTrophies ? "blur(0px)" : "blur(6px)",
+
+                transition: "all .45s cubic-bezier(.34,1.56,.64,1)",
+
+                transformOrigin: "top center",
+              }}
+            >
+              <TrophyShelf
+                trophies={TROPHIES}
+                dark={dark}
+                justUnlocked={justUnlocked}
+                isTrophyActive={isTrophyActive}
+              />
+
+              {/* Divider */}
+              <div
+                style={{
+                  height: 1,
+
+                  background: dark ? "#1e293b" : "#e2e8f0",
+
+                  marginBottom: 28,
+
+                  marginTop: 24,
+
+                  opacity: showTrophies ? 1 : 0,
+
+                  transition: "opacity .25s ease",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Cards */}
         <div className="mp-grid">
           {SONGS.map((song) => (
             <MusicCard
@@ -265,19 +406,27 @@ export default function MoviePops() {
               song={song}
               currentlyPlayingRef={currentlyPlayingRef}
               onCorrect={handleCorrect}
+              onUseHint={() => handleUseHint(song.id)}
               dark={dark}
               isCorrect={correctIds.has(song.id)}
+              isHintUsed={usedHintIds.has(song.id)}
             />
           ))}
         </div>
       </main>
+
+      {/* RESET */}
       {correctCount > 0 && (
         <div
           style={{
             display: "flex",
+
             justifyContent: "center",
+
             marginTop: 12,
+
             marginBottom: 40,
+
             padding: "0 20px",
           }}
         >
@@ -285,9 +434,11 @@ export default function MoviePops() {
             onClick={handleResetProgress}
             style={{
               height: 48,
+
               padding: "0 22px",
 
               border: "none",
+
               borderRadius: 14,
 
               cursor: "pointer",
@@ -299,11 +450,15 @@ export default function MoviePops() {
               color: "#fff",
 
               fontSize: 14,
+
               fontWeight: 800,
 
               display: "flex",
+
               alignItems: "center",
+
               justifyContent: "center",
+
               gap: 10,
 
               transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
@@ -311,16 +466,6 @@ export default function MoviePops() {
               boxShadow: dark
                 ? "0 10px 24px rgba(239,68,68,0.35)"
                 : "0 10px 20px rgba(239,68,68,0.25)",
-
-              transform: "perspective(800px) rotateX(3deg)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform =
-                "perspective(800px) rotateX(3deg) scale(1.04)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform =
-                "perspective(800px) rotateX(3deg) scale(1)";
             }}
           >
             <span
@@ -335,14 +480,20 @@ export default function MoviePops() {
           </button>
         </div>
       )}
+
+      {/* NOTIFICAÇÕES */}
       <div
         style={{
           position: "fixed",
+
           top: 20,
+
           right: 20,
 
           display: "flex",
+
           flexDirection: "column",
+
           gap: 12,
 
           zIndex: 9999,
@@ -359,46 +510,48 @@ export default function MoviePops() {
               borderRadius: 18,
 
               display: "flex",
+
               alignItems: "center",
+
               gap: 14,
 
               background: dark
                 ? `
-            linear-gradient(
-              180deg,
-              ${trophy.colors.bgD},
-              #0f172a
-            )
-          `
+                  linear-gradient(
+                    180deg,
+                    ${trophy.colors.bgD},
+                    #0f172a
+                  )
+                `
                 : `
-            linear-gradient(
-              180deg,
-              ${trophy.colors.bg},
-              #ffffff
-            )
-          `,
+                  linear-gradient(
+                    180deg,
+                    ${trophy.colors.bg},
+                    #ffffff
+                  )
+                `,
 
               border: `2px solid ${trophy.colors.border}`,
 
               boxShadow: `
-          0 12px 30px ${trophy.colors.glow}55
-        `,
-
-              animation: "unlockSlide 3.5s cubic-bezier(0.34,1.56,0.64,1)",
+                0 12px 30px ${trophy.colors.glow}55
+              `,
 
               overflow: "hidden",
 
               position: "relative",
             }}
           >
-            {/* glow */}
             <div
               style={{
                 position: "absolute",
+
                 top: -30,
+
                 right: -30,
 
                 width: 80,
+
                 height: 80,
 
                 borderRadius: "50%",
@@ -414,12 +567,15 @@ export default function MoviePops() {
             <div
               style={{
                 width: 62,
+
                 height: 62,
 
                 borderRadius: 16,
 
                 display: "flex",
+
                 alignItems: "center",
+
                 justifyContent: "center",
 
                 background: trophy.colors.border + "22",
@@ -438,10 +594,6 @@ export default function MoviePops() {
                 height={54}
                 style={{
                   objectFit: "contain",
-
-                  filter: dark
-                    ? "drop-shadow(0 0 10px rgba(255,255,255,.15))"
-                    : "drop-shadow(0 0 10px rgba(0,0,0,.12))",
                 }}
               />
             </div>
@@ -456,7 +608,9 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 11,
+
                   fontWeight: 900,
+
                   letterSpacing: "0.08em",
 
                   color: trophy.colors.border,
@@ -468,6 +622,7 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 16,
+
                   fontWeight: 900,
 
                   color: dark ? "#fff" : "#0f172a",
@@ -479,6 +634,7 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 12,
+
                   color: dark ? "#cbd5e1" : "#475569",
                 }}
               >
@@ -490,18 +646,23 @@ export default function MoviePops() {
       </div>
 
       {/* Footer */}
-      <footer
+      {/* <footer
         style={{
           borderTop: `1px solid ${dark ? "#1e293b" : "#e2e8f0"}`,
+
           padding: "16px 20px",
+
           textAlign: "center",
         }}
       >
         <p
           style={{
             margin: 0,
+
             fontSize: 11,
+
             color: dark ? "#334155" : "#cbd5e1",
+
             fontFamily: "system-ui",
           }}
         >
@@ -512,13 +673,18 @@ export default function MoviePops() {
             rel="noopener noreferrer"
             style={{
               color: dark ? "#334155" : "#cbd5e1",
+
               textDecoration: "none",
+
               fontWeight: 600,
             }}
           >
             rent.ferreira
           </a>
         </p>
+      </footer> */}
+      <footer>
+      <Footer dark={dark} />
       </footer>
     </div>
   );

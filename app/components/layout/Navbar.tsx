@@ -1,16 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ClapperLogo from "../ClapperLogo";
+import { NavbarProps } from "@/app/types/types";
 
-type NavbarProps = {
-  dark: boolean;
-  setDark: React.Dispatch<React.SetStateAction<boolean>>;
-  pct: number;
-  isComplete: boolean;
-  r: number;
-  circ: number;
-  offset: number;
-};
+
 
 export default function Navbar({
   dark,
@@ -21,6 +15,75 @@ export default function Navbar({
   circ,
   offset,
 }: NavbarProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <nav
+        style={{
+          borderBottom: `1px solid ${dark ? "#1e293b" : "#e2e8f0"}`,
+          background: dark ? "#0f172aee" : "#ffffffee",
+          backdropFilter: "blur(12px)",
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: "0 auto",
+            padding: "0 20px",
+            height: 60,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <ClapperLogo />
+
+            <div style={{ lineHeight: 1 }}>
+              <div
+                style={{
+                  fontSize: 22,
+                  fontWeight: 900,
+                  color: dark ? "#f8fafc" : "#0f172a",
+                  display: "flex",
+                  gap: 2,
+                }}
+              >
+                <span style={{ color: "#f59e0b" }}>Movie</span>
+                <span style={{ fontStyle: "italic" }}>Pops</span>
+              </div>
+
+              <div
+                style={{
+                  fontSize: 10,
+                  color: dark ? "#64748b" : "#94a3b8",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Adivinhe o filme pelo som
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              width: 120,
+              height: 56,
+            }}
+          />
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav
       style={{
@@ -57,6 +120,7 @@ export default function Navbar({
               }}
             >
               <span style={{ color: "#f59e0b" }}>Movie</span>
+
               <span style={{ fontStyle: "italic" }}>Pops</span>
             </div>
 
@@ -73,10 +137,18 @@ export default function Navbar({
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 16,
+          }}
+        >
+          {/* PROGRESS */}
           <div
             style={{
               position: "relative",
+
               width: 56,
               height: 56,
             }}
@@ -84,7 +156,9 @@ export default function Navbar({
             <svg
               width="56"
               height="56"
-              style={{ transform: "rotate(-90deg)" }}
+              style={{
+                transform: "rotate(-90deg)",
+              }}
             >
               <circle
                 cx="28"
@@ -105,33 +179,52 @@ export default function Navbar({
                 strokeLinecap="round"
                 strokeDasharray={circ}
                 strokeDashoffset={offset}
+                style={{
+                  transition:
+                    "stroke-dashoffset .45s ease, stroke .35s ease",
+                }}
               />
             </svg>
 
+            {/* TEXTO */}
             <div
               style={{
                 position: "absolute",
                 inset: 0,
+
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+
                 fontWeight: 800,
+
                 color: dark ? "#fff" : "#000",
+
+                fontSize: 14,
               }}
             >
               {pct}%
             </div>
           </div>
 
+          {/* THEME BUTTON */}
           <button
             onClick={() => setDark((d) => !d)}
             style={{
               width: 40,
               height: 22,
+
               borderRadius: 11,
+
               border: "none",
+
               cursor: "pointer",
+
               background: dark ? "#3b82f6" : "#cbd5e1",
+
+              transition: "all .25s ease",
+
+              fontSize: 12,
             }}
           >
             {dark ? "🌙" : "☀️"}

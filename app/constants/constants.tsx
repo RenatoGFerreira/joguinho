@@ -1,621 +1,5 @@
 import { Song, Trophy } from "../types/types";
 
-// export const SONGS: Song[] = [
-//   {
-//     id: 1,
-//     title: [
-//       "Missão: Impossível",
-//       "Missao Impossivel",
-//       "A Missão Impossível",
-//       "Mission Impossible",
-//       "Impossible Mission",
-//     ],
-//     phrase: "Até correndo o cara é bonito!",
-//     audio: "/audio/missaoImpossivel.mp3",
-//   },
-//   {
-//     id: 2,
-//     title: [
-//       "Star Wars",
-//       "Guerra nas Estrelas",
-//       "A Guerra nas Estrelas",
-//     ],
-//     phrase: "I am your father!!!",
-//     audio: "/audio/star.mp3",
-//   },
-//   {
-//     id: 3,
-//     title: [
-//       "Harry Potter",
-//       "O Harry Potter",
-//     ],
-//     phrase: "Lufa-Lufa é a casa mais chata!!!",
-//     audio: "/audio/harrypotter.mp3",
-//   },
-//   {
-//     id: 4,
-//     title: [
-//       "A Pantera Cor de Rosa",
-//       "Pantera Cor de Rosa",
-//       "Pantera Cor-de-rosa",
-//       "A Pantera Cor-de-rosa",
-//       "Pink Panther",
-//       "The Pink Panther",
-//     ],
-//     phrase: "Meu charme já vem com trilha sonora.",
-//     audio: "/audio/pantera.mp3",
-//   },
-//   {
-//     id: 5,
-//     title: [
-//       "Piratas do Caribe",
-//       "Os Piratas do Caribe",
-//       "Pirates of the Caribbean",
-//     ],
-//     phrase:
-//       "'Você é, sem dúvida, o pior pirata de que já ouvi falar.' (Comodoro Norrington)",
-//     audio: "/audio/piratasdocaribe.mp3",
-//   },
-//   {
-//     id: 6,
-//     title: [
-//       "Rocky",
-//       "Rocky Balboa",
-//     ],
-//     phrase: "De 0 a 10, esse filme é 11.",
-//     audio: "/audio/rocky.mp3",
-//   },
-//   {
-//     id: 7,
-//     title: [
-//       "Simpsons",
-//       "Os Simpsons",
-//       "The Simpsons",
-//     ],
-//     phrase:
-//       "'A culpa é minha e eu coloco ela em quem eu quiser!' (Homer Simpson)",
-//     audio: "/audio/simpsons.mp3",
-//   },
-//   {
-//     id: 8,
-//     title: [
-//       "Titanic",
-//       "O Titanic",
-//     ],
-//     phrase: "Eu sei e vc sabe, cabiam os dois ali!!!",
-//     audio: "/audio/titanic.mp3",
-//   },
-//   {
-//     id: 9,
-//     title: [
-//       "Tres Homens em Conflito",
-//       "Três Homens em Conflito",
-//       "O Bom o Mau e o Feio",
-//       "Bom Mau e Feio",
-//       "The Good the Bad and the Ugly",
-//     ],
-//     phrase: "Todo mundo já ouviu mas poucos já viram o filme!",
-//     audio: "/audio/treshomensconflito.mp3",
-//   },
-//   {
-//     id: 10,
-//     title: [
-//       "Psicose",
-//       "A Psicose",
-//       "Psycho",
-//     ],
-//     phrase: "Você confundiu com Halloween, acertei?",
-//     audio: "/audio/psicose.mp3",
-//   },
-//   {
-//     id: 11,
-//     title: [
-//       "La La Land",
-//       "Lalaland",
-//       "LaLaLand",
-//     ],
-//     phrase: "Foi só eu que não gostei do final?",
-//     audio: "/audio/lalaland.mp3",
-//   },
-//   {
-//     id: 12,
-//     title: [
-//       "Tropa de Elite",
-//       "Elite Squad",
-//     ],
-//     phrase:
-//       "Cadê o baiano?",
-//     audio: "/audio/tropaelite.mp3",
-//   },
-//   {
-//     id: 13,
-//     title: [
-//       "Poderoso Chefão",
-//       "Poderoso Chefao",
-//       "O Poderoso Chefão",
-//       "The Godfather",
-//     ],
-//     phrase: "Duvido achar 5 pessoas que já viram todos!",
-//     audio: "/audio/poderosochefao.mp3",
-//   },
-//   {
-//     id: 14,
-//     title: [
-//       "ET",
-//       "E.T.",
-//       "E.T",
-//       "ET O Extraterrestre",
-//       "E.T. the Extra-Terrestrial",
-//     ],
-//     phrase: "Dedo com luz!",
-//     audio: "/audio/et.mp3",
-//   },
-//   {
-//     id: 15,
-//     title: [
-//       "Superman",
-//       "Super-Homem",
-//       "Super Homem",
-//       "O Super-Homem",
-//     ],
-//     phrase: "Sou indestrutivel exceto por uma boa pedrada.",
-//     audio: "/audio/superma.mp3",
-//   },
-//   {
-//     id: 16,
-//     title: [
-//       "Auto da Compadecida",
-//       "O auto da compadecida",
-//       "A Dog's Will",
-//       "A Dogs Will",
-//       "Dogs Will"
-//     ],
-//     phrase: "Num sei?! Só sei que foi assim!",
-//     audio: "/audio/autocompad.mp3",
-//   },
-//   {
-//     id: 17,
-//     title: [
-//       "Lista de Schindler",
-//       "Lista de Shindler",
-//       "A Lista de Schindler",
-//       "Schindler's List",
-//       "Shindlers List",
-//     ],
-//     phrase: "Escorreu uma lágrima aqui.",
-//     audio: "/audio/listashindler.mp3",
-//   },
-//   {
-//     id: 18,
-//     title: [
-//       "Batman",
-//       "Batman O Cavaleiro das Trevas",
-//       "Cavaleiro das Trevas",
-//       "Dark Knight",
-//       "The Dark Knight",
-//     ],
-//     phrase: "Se você for rico você pode ser um superheroi... ou não!",
-//     audio: "/audio/batmandarkknight.mp3",
-//   },
-//   {
-//     id: 19,
-//     title: [
-//       "Ben Hur",
-//       "Ben-Hur",
-//     ],
-//     phrase: "O primeiro filme com 11 oscares.",
-//     audio: "/audio/benhur.mp3",
-//   },
-//   {
-//     id: 20,
-//     title: [
-//       "Amelie Poulain",
-//       "Amélie Poulain",
-//       "O Fabuloso Destino de Amélie Poulain",
-//       "Fabuloso Destino de Amelie Poulain",
-//       "Amelie",
-//     ],
-//     phrase: "A vida é bela apesar de tudo.",
-//     audio: "/audio/ameliepolan.mp3",
-//   },
-//   {
-//     id: 21,
-//     title: [
-//       "Carruagem de Fogo",
-//       "Carruagens de Fogo",
-//       "Chariots of Fire",
-//     ],
-//     phrase: "Uma música que saiu do filme para a gloria.",
-//     audio: "/audio/carruagemfogo.mp3",
-//   },
-//   {
-//     id: 22,
-//     title: [
-//       "De Volta para o Futuro",
-//       "O De Volta para o Futuro",
-//       "Back to the Future",
-//     ],
-//     phrase: "Cadê os skates voadores de 2025?",
-//     audio: "/audio/devoltafuturo.mp3",
-//   },
-//   {
-//     id: 23,
-//     title: [
-//       "Divertidamente",
-//       "Divertida Mente",
-//       "Inside Out",
-//     ],
-//     phrase: "Bing bong meu amigo pra brincar...",
-//     audio: "/audio/divertidamente.mp3",
-//   },
-//   {
-//     id: 24,
-//     title: [
-//       "Forrest Gump",
-//       "O Forrest Gump",
-//       "The Forrest Gump"
-//     ],
-//     phrase: "Run forrest, RUUUNNN!!!",
-//     audio: "/audio/forrestgump.mp3",
-//   },
-//   {
-//     id: 25,
-//     title: [
-//       "Gladiador",
-//       "O Gladiador",
-//       "Gladiator",
-//     ],
-//     phrase: "Maximus Décimus Meridius!!!",
-//     audio: "/audio/gladiador.mp3",
-//   },
-//   {
-//     id: 26,
-//     title: [
-//       "Inception",
-//       "Origem",
-//       "A Origem",
-//     ],
-//     phrase: "A vida onde os ricos dormem.",
-//     audio: "/audio/inception.mp3",
-//   },
-//   {
-//     id: 27,
-//     title: [
-//       "Indiana Jones",
-//       "Os Caçadores da Arca Perdida",
-//       "Raiders of the Lost Ark",
-//     ],
-//     phrase: "Sem ele a história ainda seria a mesma?",
-//     audio: "/audio/indianajones.mp3",
-//   },
-//   {
-//     id: 28,
-//     title: [
-//       "Interestelar",
-//       "Interstellar",
-//     ],
-//     phrase: "Aconteceu o mesmo desastre climático nos EUA em 1930.",
-//     audio: "/audio/interstellar.mp3",
-//   },
-//   {
-//     id: 29,
-//     title: [
-//       "Jurassic Park",
-//       "Parque dos Dinossauros",
-//       "O Parque dos Dinossauros",
-//     ],
-//     phrase: "Rã + Mosquito = Tiranossauro?",
-//     audio: "/audio/jurassicpark.mp3",
-//   },
-//   {
-//     id: 30,
-//     title: [
-//       "Cidade de Deus",
-//       "City of God",
-//     ],
-//     phrase: "Pega a galinha ai cumpade!!!",
-//     audio: "/audio/cidadedeus.mp3",
-//   },
-//   {
-//     id: 31,
-//     title: [
-//       "E o Vento Levou",
-//       "O Vento Levou",
-//       "Vento Levou",
-//       "Gone with the Wind",
-//     ],
-//     phrase: "Filme a cores mais velho que a vó.",
-//     audio: "/audio/oventolevou.mp3",
-//   },
-//   {
-//     id: 32,
-//     title: [
-//       "Ponte do Rio Kwai",
-//       "A Ponte do Rio Kwai",
-//       "Bridge on the River Kwai",
-//       "The Bridge on the River Kwai",
-//     ],
-//     phrase: "Se você é velho você lembra do Faustão.",
-//     audio: "/audio/ponteriokwai.mp3",
-//   },
-//   {
-//     id: 33,
-//     title: [
-//       "O Último dos Moicanos",
-//       "Último dos Moicanos",
-//       "Ultimo dos Moicanos",
-//       "Last of the Mohicans",
-//       "The Last of the Mohicans",
-//     ],
-//     phrase: "Daqui surgiu a expressão 'ser o último dos moicanos'.",
-//     audio: "/audio/ultiimodosmoicanos.mp3",
-//   },
-//   {
-//     id: 34,
-//     title: [
-//       "Up",
-//       "Up Altas Aventuras",
-//       "Altas Aventuras"
-//     ],
-//     phrase: "'Sr Wilson?' ou 'Cachorro idiota' de qual frase você se lembra mais?",
-//     audio: "/audio/up.mp3",
-//   },
-//   {
-//     id: 35,
-//     title: [
-//       "A Vida é Bela",
-//       "Vida é Bela",
-//       "Life is Beautiful",
-//       "La Vita è Bella",
-//     ],
-//     phrase: "Buongiorno Principessa.",
-//     audio: "/audio/vidaebela.mp3",
-//   },
-//   {
-//     id: 36,
-//     title: [
-//       "Vingadores",
-//       "Os Vingadores",
-//       "Avengers",
-//       "The Avengers",
-//     ],
-//     phrase: "Vingadores... Avante!",
-//     audio: "/audio/vingadores.mp3",
-//   },
-//   {
-//     id: 37,
-//     title: [
-//       "Tubarão",
-//       "Tubarao",
-//       "O Tubarão",
-//       "Jaws",
-//     ],
-//     phrase:
-//       "Se você tem mais de 35, definitivamente tinha medo de tubarão na praia!",
-//     audio: "/audio/tubarao.mp3",
-//   },
-//   {
-//     id: 38,
-//     title: [
-//       "007",
-//       "James Bond",
-//       "O James Bond",
-//     ],
-//     phrase: "O agente só ficou loiro em 2005.",
-//     audio: "/audio/007.mp3",
-//   },
-//   {
-//     id: 39,
-//     title: [
-//       "Meu Tio Matou um Cara",
-//       "Tio matou um cara",
-//       "Uncle Killed a Guy",
-//       "My Uncle Killed a Guy"
-//     ],
-//     phrase: "Spoiler, ele não matou um cara.",
-//     audio: "/audio/sorayaqueima.mp3",
-//   },
-//   {
-//     id: 40,
-//     title: [
-//       "Kung Fu Panda",
-//       "O Kung Fu Panda",
-//     ],
-//     phrase: "... e é por isso que se chama presente!",
-//     audio: "/audio/kongfupanda.mp3",
-//   },
-//   {
-//     id: 41,
-//     title: [
-//       "Velozes e Furioso",
-//       "Fast and Furious",
-//     ],
-//     phrase: "Era corrida de carros  e agora é o que?",
-//     audio: "/audio/velozesfuriosos.mp3",
-//   },
-//   {
-//     id: 42,
-//     title: [
-//       "Transformers",
-//     ],
-//     phrase: "A trilha sonora era boa mas o meme é sensacional.",
-//     audio: "/audio/transformers.mp3",
-//   },
-//   {
-//     id: 43,
-//     title: [
-//       "Toy Story",
-//     ],
-//     phrase: "O garfinho foi animado por um Brasileiro",
-//     audio: "/audio/toystory.mp3",
-//   },
-//   {
-//     id: 44,
-//     title: [
-//       "Top Gun - Ases Indomáveis",
-//       "Top Gun",
-//       "Ases Indomáveis",
-//       "Top Gun: Maverick"
-//     ],
-//     phrase: "Homens bombados, oculos de sol, avião e volei na praia.",
-//     audio: "/audio/topgun.mp3",
-//   },
-//   {
-//     id: 45,
-//     title: [
-//       "Senhor dos Aneis",
-//       "Lord of Rings",
-//     ],
-//     phrase: "'Tudo o que temos de decidir é o que fazer com o tempo que nos é dado.' (Gandalf)",
-//     audio: "/audio/senhoraneis.mp3",
-//   },
-//   {
-//     id: 46,
-//     title: [
-//       "Réquiem para um sonho",
-//       "Requien for a dream",
-//     ],
-//     phrase: "Crianças, não usem drogas.",
-//     audio: "/audio/requiemDream.mp3",
-//   },
-//   {
-//     id: 47,
-//     title: [
-//       "Mortal Kombat",
-//       "Combate Mortal",
-//     ],
-//     phrase: "sUbZeRo, SuBzeRo eU EscOlHIa o SuBzerO.",
-//     audio: "/audio/mk.mp3",
-//   },
-//   {
-//     id: 48,
-//     title: [
-//       "Madagascar",
-//     ],
-//     phrase: "Eu sei que você cantou quando ouviu!",
-//     audio: "/audio/madagascar.mp3",
-//   },
-//   {
-//     id: 49,
-//     title: [
-//       "KillBill",
-//       "kill bill",
-//     ],
-//     phrase: "Tarantino arrasou neste!",
-//     audio: "/audio/killbill.mp3",
-//   },
-//   {
-//     id: 50,
-//     title: [
-//       "Homem de Ferro",
-//       "Ironman",
-//       "Iron man"
-//     ],
-//     phrase: "Playboy, filantrópico, bilionário e homem de ferro.",
-//     audio: "/audio/ironman.mp3",
-//   },
-//   {
-//     id: 51,
-//     title: [
-//       "Intocáveis",
-//     ],
-//     phrase: "Ele é forte, troca minhas meias e não tem pena.",
-//     audio: "/audio/intocaveis.mp3",
-//   },
-//   {
-//     id: 52,
-//     title: [
-//       "Frozen",
-//     ],
-//     phrase: "Eu sei que você também cantou essa!",
-//     audio: "/audio/frozen.mp3",
-//   },
-//   {
-//     id: 53,
-//     title: [
-//       "Footloose",
-//     ],
-//     phrase: "Ainda vigorava a lei em 1980 na cidade de Elmore, Oklahoma onde era proibido dançar. ",
-//     audio: "/audio/footloose.mp3",
-//   },
-//   {
-//     id: 54,
-//     title: [
-//       "Flash Dance",
-//     ],
-//     phrase: "A dança da cadeira e balde de agua na cabeça.",
-//     audio: "/audio/flashdance.mp3",
-//   },
-//   {
-//     id: 55,
-//     title: [
-//       "O Exorcista",
-//       "Exorcista",
-//       "Exorcist"
-//     ],
-//     phrase: "Eodou a cabeça!",
-//     audio: "/audio/exorcista.mp3",
-//   },
-//   {
-//     id: 56,
-//     title: [
-//       "Embalos de Sábado a noite",
-//     ],
-//     phrase: "O filme onde eternizou o disco dance!",
-//     audio: "/audio/embalossabado.mp3",
-//   },
-//   {
-//     id: 57,
-//     title: [
-//       "Dois Filhos de Francisco",
-//     ],
-//     phrase: "Já tomou seu ovo cru hoje?",
-//     audio: "/audio/doisfilhofrancisco.mp3",
-//   },
-//   {
-//     id: 58,
-//     title: [
-//       "Dirty Dancing",
-//     ],
-//     phrase: "Sempre tem acidentes em casamentos quando toca essa música.",
-//     audio: "/audio/dirtydancing.mp3",
-//   },
-//   {
-//     id: 59,
-//     title: [
-//       "Deadpool",
-//     ],
-//     phrase: "By by by também é boa mas essa aqui é a cara dele!",
-//     audio: "/audio/deadpool.mp3",
-//   },
-//   {
-//     id: 60,
-//     title: [
-//       "Crepusculo",
-//     ],
-//     phrase: "Você é time livro ou time filme?",
-//     audio: "/audio/crepusculo.mp3",
-//   },
-//   {
-//     id: 61,
-//     title: [
-//       "Blade",
-//     ],
-//     phrase: "Merece cross over com Crepusculo?",
-//     audio: "/audio/blade.mp3",
-//   },
-//   {
-//     id: 62,
-//     title: [
-//       "2001: Uma Odisseia no Espaço",
-//       "2001",
-//       "Odisseia no espaco"
-//     ],
-//     phrase: "IA e Evolução humana debatidos em 1968.",
-//     audio: "/audio/2001.mp3",
-//   },
-
-// ];
 export const SONGS: Song[] = [
   {
     id: 1,
@@ -626,18 +10,21 @@ export const SONGS: Song[] = [
       "Missao Impossivel",
     ],
     phrase: "Até correndo o cara é bonito!",
+    tip: "De 1996 a 2025 o ator principal Tom Cruise esteve em todos os 8 filmes da franquia. ",
     audio: "/audio/missaoImpossivel.mp3",
   },
   {
     id: 2,
     title: ["Star Wars", "Guerra nas Estrelas"],
     phrase: "I am your father!!!",
+    tip: "Tem gente que assiste pela ordem cronológica, mas tem quem prefira 1999, 2002, 2005, 1977, 1980 e 1983.",
     audio: "/audio/star.mp3",
   },
   {
     id: 3,
     title: ["Harry Potter"],
     phrase: "Lufa-Lufa é a casa mais chata!!!",
+    tip: "Avada Kedravra, Expecto Patronum e Wingardium Leviosa são feitiços dessa história.",
     audio: "/audio/harrypotter.mp3",
   },
   {
@@ -650,6 +37,7 @@ export const SONGS: Song[] = [
       "Pantera cor de Rosa",
     ],
     phrase: "Meu charme já vem com trilha sonora.",
+    tip: "Este filme também foi um desenho animado de um felino de cor rosa.",
     audio: "/audio/pantera.mp3",
   },
   {
@@ -657,12 +45,15 @@ export const SONGS: Song[] = [
     title: ["Piratas do Caribe", "Pirates of the Caribbean"],
     phrase:
       "'Você é, sem dúvida, o pior pirata de que já ouvi falar.' (Comodoro Norrington)",
+    tip: "Como personagem principal este capitão foi protagonizado por Johnny Depp.",
+
     audio: "/audio/piratasdocaribe.mp3",
   },
   {
     id: 6,
     title: ["Rocky: Um Lutador", "Rocky"],
     phrase: "De 0 a 10, esse filme é 11.",
+    tip: "Um pequeno boxeador que recebe uma grande oportunidade. Sylvester Stallone foi o ator principal.",
     audio: "/audio/rocky.mp3",
   },
   {
@@ -675,12 +66,14 @@ export const SONGS: Song[] = [
     ],
     phrase:
       "'A culpa é minha e eu coloco ela em quem eu quiser!' (Homer Simpson)",
+    tip: "Este desenho famoso pelos personagens amarelos, alem de filme estrelou na TV em 1987.",
     audio: "/audio/simpsons.mp3",
   },
   {
     id: 8,
     title: ["Titanic", "Titanic"],
     phrase: "Eu sei e você sabe: cabiam os dois ali!!!",
+    tip: "Baseado numa história real foi marcado também por uma frase: 'Nem Deus pode afundar este navio'.",
     audio: "/audio/titanic.mp3",
   },
   {
@@ -694,12 +87,16 @@ export const SONGS: Song[] = [
       "bom mau e o feio",
     ],
     phrase: "Todo mundo já ouviu, mas poucos já viram o filme!",
+    tip: "Este filme é enredo de uma historia de velho oeste com três homens, um com cada perfil. ",
+
     audio: "/audio/treshomensconflito.mp3",
   },
   {
     id: 10,
     title: ["Psicose", "Psycho", "Psicose"],
     phrase: "Você confundiu com Halloween, acertei?",
+    tip: "Famoso filme de terror onde tem aquela cena em preto e branco onde uma mulher é esfaqueada no banheiro.",
+
     audio: "/audio/psicose.mp3",
   },
   {
@@ -712,42 +109,50 @@ export const SONGS: Song[] = [
       "lalaland",
     ],
     phrase: "Foi só eu que não gostei do final?",
+    tip: "Emma Stone e Ryan Gosling são os personagens desse drama que envolve romance ao estilo musical. ",
     audio: "/audio/lalaland.mp3",
   },
   {
     id: 12,
     title: ["Tropa de Elite", "Elite Squad"],
     phrase: "Cadê o baiano?",
+    tip: "Este filme mostrou a realidade das favelas e como funciona a elite da policia do Rio de Janeiro. ",
     audio: "/audio/tropaelite.mp3",
   },
   {
     id: 13,
     title: ["O Poderoso Chefão", "The Godfather", "Poderoso Chefão"],
     phrase: "Duvido achar 5 pessoas que já viram todos!",
+    tip: "A famosa família Corleone que é uma poderosa organização ítalo-americana em Nova York.",
     audio: "/audio/poderosochefao.mp3",
   },
   {
     id: 14,
     title: ["E.T.: O Extraterrestre", "E.T. the Extra-Terrestrial", "ET"],
     phrase: "Dedo com luz!",
+    tip: "Steven Spielberg foi diretor dessa história que conta sobre a amizade de um menino e um extraterrestre. ",
     audio: "/audio/et.mp3",
   },
   {
     id: 15,
     title: ["Superman: O Filme", "Superman", "Super-Homem", "Super Homem"],
     phrase: "Sou indestrutível, exceto por uma boa pedrada.",
+    tip: "Um dos maiores super herois da DC, ele também trabalha como reporter no jornal Planeta Diário de Metropolis.",
+
     audio: "/audio/superma.mp3",
   },
   {
     id: 16,
     title: ["O Auto da Compadecida", "A Dog's Will", "Auto da Compadecida"],
     phrase: "Não sei?! Só sei que foi assim!",
+    tip: "Ariano Suassuna foi o escritor desta obra que conta com os personagens João Grilo e Chicó.",
     audio: "/audio/autocompad.mp3",
   },
   {
     id: 17,
     title: ["A Lista de Schindler", "Schindler's List", "Lista de Schindler"],
     phrase: "Escorreu uma lágrima aqui.",
+    tip: "Conta a historia nua e crua sobre a segunda guerra mundial e como o alemão Oskar Schindler salvou centenas de judeus.",
     audio: "/audio/listashindler.mp3",
   },
   {
@@ -759,12 +164,15 @@ export const SONGS: Song[] = [
       "Batman",
     ],
     phrase: "Se você for rico, você pode ser um super-herói... ou não!",
+    tip: "Para alguns, esta foi a melhor trilogia do heroi mascarado. Christopher Nolan foi o diretor.",
+
     audio: "/audio/batmandarkknight.mp3",
   },
   {
     id: 19,
     title: ["Ben-Hur", "Ben Hur"],
     phrase: "O primeiro filme com 11 Oscars.",
+    tip: "Este filme lançado em 1959, foi o primeiro filme a ganhar 11 oscares, depois dele foi só em 1997.",
     audio: "/audio/benhur.mp3",
   },
   {
@@ -777,12 +185,16 @@ export const SONGS: Song[] = [
       "Amelie Poulain",
     ],
     phrase: "A vida é bela, apesar de tudo.",
+    tip: "Classico francẽs que conta a história de uma moça que encontra uma caixinha em seu apartamento e decide encontrar o dono.",
+
     audio: "/audio/ameliepolan.mp3",
   },
   {
     id: 21,
-    title: ["Carruagens de Fogo", "Chariots of Fire"],
+    title: ["Carruagens de Fogo", "Chariots of Fire", "Carruagem de Fogo"],
     phrase: "Uma música que saiu do filme para a glória.",
+    tip: "Este drama de 1981 conta a história de dois atletas de crenças diferentes competindo nas olimpiadas de 1924.",
+
     audio: "/audio/carruagemfogo.mp3",
   },
   {
@@ -793,12 +205,15 @@ export const SONGS: Song[] = [
       "Volta para o Futuro",
     ],
     phrase: "Cadê os skates voadores de 2025?",
+    tip: "Um professor maluco que faz um experimento malsucedido e um adolescente que viaja para o passado. ",
     audio: "/audio/devoltafuturo.mp3",
   },
   {
     id: 23,
     title: ["Divertidamente", "Inside Out", "Divertidamente"],
     phrase: "Bing Bong, meu amigo para brincar...",
+    tip: "Este filme foi elogiado por ensinar inteligencia emocional mostrando as emoções como personagens.",
+
     audio: "/audio/divertidamente.mp3",
   },
   {
@@ -809,18 +224,24 @@ export const SONGS: Song[] = [
       "Forrest Gump",
     ],
     phrase: "Run, Forrest, RUUUNNN!!!",
+    tip: "Mesmo sendo ingênuo, o personagem vivido por Tom Hanks contou histórias sentado em um banco de ponto de ônibus.",
+
     audio: "/audio/forrestgump.mp3",
   },
   {
     id: 25,
     title: ["Gladiador", "Gladiator"],
     phrase: "Maximus Decimus Meridius!!!",
+    tip: "Um general romano amado pelo povo e pelo imperador luta por sua vida até ter a oportunidade de desafiar o filho do imperador.",
+
     audio: "/audio/gladiador.mp3",
   },
   {
     id: 26,
     title: ["A Origem", "Inception", "Origem"],
     phrase: "A vida onde os ricos dormem.",
+    tip: "Christopher Nolan foi diretor dessa trama onde se 'planta ideias' através do sono de pessoas.",
+
     audio: "/audio/inception.mp3",
   },
   {
@@ -830,13 +251,15 @@ export const SONGS: Song[] = [
       "Raiders of the Lost Ark",
       "Indiana Jones",
     ],
-    phrase: "Sem ele, a história ainda seria a mesma?",
+    phrase: "Sem ele, a história aconteceria do mesmo jeito que aconteceu?",
+    tip: "Criado por George Lucas e Steven Spielberg aqui é uma aventura vivenciada pelo arqueólogo Henry Walton ____ Jones Jr.",
     audio: "/audio/indianajones.mp3",
   },
   {
     id: 28,
     title: ["Interestelar", "Interstellar", "Interstelar"],
     phrase: "Aconteceu o mesmo desastre climático nos EUA em 1930.",
+    tip: "Os astronautas recebem a missão de verificar possíveis planetas para receberem a população mundial. ",
     audio: "/audio/interstellar.mp3",
   },
   {
@@ -847,12 +270,14 @@ export const SONGS: Song[] = [
       "Parque dos Dinossauros",
     ],
     phrase: "Rã + Mosquito = Tiranossauro?",
+    tip: "Nessa história, os paleotólogos conseguem reviver dinossauros a partir de DNA encontrado em mosquitos",
     audio: "/audio/jurassicpark.mp3",
   },
   {
     id: 30,
     title: ["Cidade de Deus", "City of God"],
     phrase: "Pega a galinha aí, cumpade!!!",
+    tip: "Buscapé, cresce em um universo de muita violência e conhece pessoas como o Dadinho que se torna Zé pequeno quando mais velho.",
     audio: "/audio/cidadedeus.mp3",
   },
   {
@@ -864,6 +289,7 @@ export const SONGS: Song[] = [
       "Vento Levou",
     ],
     phrase: "Filme a cores mais velho que a vó.",
+    tip: "Filme de 1939 conquistou 10 oscares, conta a história de Scarlett O'Hara que consegue tudo o que quer exceto o amor de Ashley Wilkes,",
     audio: "/audio/oventolevou.mp3",
   },
   {
@@ -874,6 +300,8 @@ export const SONGS: Song[] = [
       "Ponte do Rio Kwai",
     ],
     phrase: "Se você é velho, você lembra do Faustão.",
+    tip: "Prisioneiros de guerra são forçados a construir uma ponte para ajudar seus inimigos neste filme vencedor de 7 oscares.",
+
     audio: "/audio/ponteriokwai.mp3",
   },
   {
@@ -884,6 +312,8 @@ export const SONGS: Song[] = [
       "Último dos Moicanos",
     ],
     phrase: "Daqui surgiu a expressão 'ser o último dos moicanos'.",
+    tip: "Na guerra entre franceses e ingleses na America no Norte, um homem branco criado por indígenas tenta defender a sua tribo.",
+
     audio: "/audio/ultiimodosmoicanos.mp3",
   },
   {
@@ -891,6 +321,7 @@ export const SONGS: Song[] = [
     title: ["Up: Altas Aventuras", "Up", "Altas Aventuras"],
     phrase:
       "'Sr. Wilson?' ou 'Cachorro idiota', de qual frase você se lembra mais?",
+    tip: "Um vendedor de balões prestes a perder sua casa decide voar com sua casa para a America do Sul.",
     audio: "/audio/up.mp3",
   },
   {
@@ -902,12 +333,14 @@ export const SONGS: Song[] = [
       "Vida é Bela",
     ],
     phrase: "Buongiorno Principessa.",
+    tip: "Este filme ganhou o oscar de melhor filme extrangeiro em cima do aclamado brasileiro Central do Brasil.",
     audio: "/audio/vidaebela.mp3",
   },
   {
     id: 36,
-    title: ["Os Vingadores", "The Avengers", "Vingadores"],
+    title: ["Os Vingadores", "The Avengers", "Vingadores", "Avengers"],
     phrase: "Vingadores... Avante!",
+    tip: "A maior reunião de heróis da marvel se torna esta equipe que dá nome ao filme.",
     audio: "/audio/vingadores.mp3",
   },
   {
@@ -915,12 +348,14 @@ export const SONGS: Song[] = [
     title: ["Tubarão", "Jaws", "Tubarao"],
     phrase:
       "Se você tem mais de 35 anos, definitivamente tinha medo de tubarão na praia!",
+    tip: "Som, montagem e trilha sonora deram 3 oscars para este filme, um animal que fez banhistas refletir sobre as praias.",
     audio: "/audio/tubarao.mp3",
   },
   {
     id: 38,
     title: ["007", "James Bond"],
     phrase: "O agente só ficou loiro em 2005.",
+    tip: "O mais famoso agente secreto dos cinemas, foi escrito em 1953 por Ian Fleming.",
     audio: "/audio/007.mp3",
   },
   {
@@ -931,12 +366,14 @@ export const SONGS: Song[] = [
       "Tio matou um cara",
     ],
     phrase: "Spoiler: ele não matou um cara.",
+    tip: "Com o tio preso por ter matado uma pessoa, o sobrinho junta provas que não foi isso que aconteceu.",
     audio: "/audio/sorayaqueima.mp3",
   },
   {
     id: 40,
     title: ["Kung Fu Panda", "Kung Fu Panda's", "Kung Fu Pandas"],
     phrase: "...e é por isso que se chama presente!",
+    tip: "Uma animação que retrata a filosofia e a história do Kung Fu.",
     audio: "/audio/kongfupanda.mp3",
   },
   {
@@ -948,24 +385,28 @@ export const SONGS: Song[] = [
       "Velozes e Furiosos",
     ],
     phrase: "Era corrida de carros e agora é o quê?",
+    tip: "Iniciada em 2001 a saga retratava as corridas clandestinas, assaltos e tem valor como a família.",
     audio: "/audio/velozesfuriosos.mp3",
   },
   {
     id: 42,
     title: ["Transformers", "Transformers", "Transformers"],
     phrase: "A trilha sonora era boa, mas o meme é sensacional.",
+    tip: "Robôs de outros planetas que possuem a capacidade de se transformar em qualquer maquina no planeta.",
     audio: "/audio/transformers.mp3",
   },
   {
     id: 43,
     title: ["Toy Story", "Toy Story"],
     phrase: "O garfinho foi animado por um brasileiro.",
+    tip: "Conta a história do que acontece com os brinquedos quando não estamos olhando para eles.",
     audio: "/audio/toystory.mp3",
   },
   {
     id: 44,
     title: ["Top Gun: Ases Indomáveis", "Top Gun", "Ases Indomáveis"],
     phrase: "Homens bombados, óculos de sol, avião e vôlei na praia de jeans.",
+    tip: "Retrata a escola naval de pilotos de caça dos EUA.",
     audio: "/audio/topgun.mp3",
   },
   {
@@ -978,6 +419,7 @@ export const SONGS: Song[] = [
     ],
     phrase:
       "'Tudo o que temos de decidir é o que fazer com o tempo que nos é dado.' (Gandalf)",
+    tip: "Tem acumulado 17 oscars, e o capítulo final sozinho venceu 11 estatuetas.",
     audio: "/audio/senhoraneis.mp3",
   },
   {
@@ -988,30 +430,36 @@ export const SONGS: Song[] = [
       "Réquiem para um sonho",
     ],
     phrase: "Crianças, não usem drogas!",
+    tip: "UM filme de terror psicológico que mostra as relações das pessoas com seus vícios. ",
     audio: "/audio/requiemDream.mp3",
   },
   {
     id: 47,
     title: ["Mortal Kombat", "Mortal Kombat", "Combate Mortal"],
+
     phrase: "Sub-Zero, Sub-Zero, eu escolhia o Sub-Zero.",
+    tip: "Sucesso dos games também retratado nos cinemas. Em 1992, usou atores reais para dar vida nos games.",
     audio: "/audio/mk.mp3",
   },
   {
     id: 48,
     title: ["Madagascar", "Madagascar", "Madagaskar"],
     phrase: "Eu sei que você cantou quando ouviu!",
+    tip: "Um grupo de animais que ao fugir do zoológico de NY, acaba chegando no continente africano.",
     audio: "/audio/madagascar.mp3",
   },
   {
     id: 49,
     title: ["Kill Bill", "Kill Bill", "KillBill"],
     phrase: "Tarantino arrasou neste!",
+    tip: "Ex-assassina conhecida apenas como Noiva acorda de um coma de quatro anos decidida a se vingar de ____",
     audio: "/audio/killbill.mp3",
   },
   {
     id: 50,
     title: ["Homem de Ferro", "Iron Man", "Ironman"],
     phrase: "Playboy, filantropo, bilionário e Homem de Ferro.",
+    tip: "Um dos personagens principais da Marvel nos cinemas foi protagonizado por Robert Downey Jr. ",
     audio: "/audio/ironman.mp3",
   },
   {
@@ -1025,12 +473,14 @@ export const SONGS: Song[] = [
       "Untouchable",
     ],
     phrase: "Ele é forte, troca minhas meias e não tem pena.",
+    tip: "Um milionário tetraplégico contrata um homem da periferia para ser o seu acompanhante e criam grande amizade.",
     audio: "/audio/intocaveis.mp3",
   },
   {
     id: 52,
     title: ["Frozen: Uma Aventura Congelante", "Frozen", "Frozen", "lerigo"],
     phrase: "Eu sei que você também cantou essa!",
+    tip: "Esse sucesso da Disney conta a história da rainha da Neve.",
     audio: "/audio/frozen.mp3",
   },
   {
@@ -1038,18 +488,21 @@ export const SONGS: Song[] = [
     title: ["Footloose", "Footloose", "Footloose"],
     phrase:
       "Ainda vigorava a lei em 1980 na cidade de Elmore, Oklahoma, onde era proibido dançar.",
+    tip: "Ren McCormak descobre que a cidade do interior para a qual se mudou tem uma lei que proíbe a dança e a música pop.",
     audio: "/audio/footloose.mp3",
   },
   {
     id: 54,
     title: ["Flashdance", "Flashdance", "Flash Dance"],
     phrase: "A dança da cadeira e balde de água na cabeça.",
+    tip: "Cheio de cenas de danças coreografadas é quase uma trama da cinderela moderna da operária que quer ser bailarina.",
     audio: "/audio/flashdance.mp3",
   },
   {
     id: 55,
     title: ["O Exorcista", "The Exorcist", "Exorcist", "Exorcista"],
     phrase: "Rodou a cabeça!",
+    tip: "A produção deste clássico do terror foi cercada de acontecimentos bizarros, de incêndios no set a mortes no elenco.",
     audio: "/audio/exorcista.mp3",
   },
   {
@@ -1058,8 +511,10 @@ export const SONGS: Song[] = [
       "Os Embalos de Sábado à Noite",
       "Saturday Night Fever",
       "Embalos de Sábado a noite",
+      "Febre de Sábado à Noite"
     ],
     phrase: "O filme onde eternizou o disco dance!",
+    tip: "Esse clássico musical foi estrelado por John Travolta em 1977 e imortalizou o estilo disco.",
     audio: "/audio/embalossabado.mp3",
   },
   {
@@ -1071,30 +526,35 @@ export const SONGS: Song[] = [
       "Filhos de francisco",
     ],
     phrase: "Já tomou seu ovo cru hoje?",
+    tip: "Clássico filme brasileiro que conta a história da dupla sertaneja Zezé de Camargo & Luciano.",
     audio: "/audio/doisfilhofrancisco.mp3",
   },
   {
     id: 58,
     title: ["Dirty Dancing", "Dirty Dancing", "Dirty Dancing"],
     phrase: "Sempre tem acidentes em casamentos quando toca essa música.",
+    tip: "Primeiro filme a vender 1 milhão de copias de VHS, foi protagonizado por Patrick Swayze e Jennifer Grey.",
     audio: "/audio/dirtydancing.mp3",
   },
   {
     id: 59,
     title: ["Deadpool", "Deadpool", "Deadpool"],
     phrase: "Bye bye bye também é boa, mas essa aqui é a cara dele!",
+    tip: "Alter-ego de Wade Winston Wilson, esse anti-herói tem a capacidade de quebrar a 4ª parede.",
     audio: "/audio/deadpool.mp3",
   },
   {
     id: 60,
     title: ["Crepúsculo", "Twilight", "Crepusculo"],
     phrase: "Você é time livro ou time filme?",
+    tip: "Uma estudante que conhece um belo e misterioso adolescente, adolescente que também é um vampiro.",
     audio: "/audio/crepusculo.mp3",
   },
   {
     id: 61,
     title: ["Blade: O Caçador de Vampiros", "Blade", "Blade"],
     phrase: "Merece um crossover com Crepúsculo?",
+    tip: "Um anti-herói da Marvel que possui força sobre-humana e caça vampiros.",
     audio: "/audio/blade.mp3",
   },
   {
@@ -1106,7 +566,157 @@ export const SONGS: Song[] = [
       "Odisseia no espaco",
     ],
     phrase: "IA e evolução humana debatidos em 1968.",
+    tip: "Filme de ficção científica sugere que o avanço da humanidade foi impulsionado por forças superiores (os misteriosos monolitos). ",
     audio: "/audio/2001.mp3",
+  },
+  {
+    id: 63,
+    title: [
+      "Os Caça-Fantasmas",
+      "caca fantasmas",
+      "Ghostbusters",
+    ],
+    phrase: "Um filme onde fantasmas que ultrapassam paredes são presos em caixa de metal.",
+    tip: "Eles são parapsicologistas e decidem abrir uma empresa que captura fantasmas. ",
+    audio: "/audio/cacafantasmas.mp3",
+  },
+  {
+    id: 64,
+    title: [
+      "Whiplash",
+    ],
+    phrase: "We will rock you seria muito fácil para ele.",
+    tip: "Um maestro de música que exige extrema qualidade e um baterista no mais alto nível.",
+    audio: "/audio/whiplash.mp3",
+  },
+  {
+    id: 65,
+    title: [
+      "Um ninja da pesada",
+      "Beverly Hills Ninja",
+      "Ninja da pesada"
+    ],
+    phrase: "A lenda do ninja branco? Alguns dizem que sou eu.",
+    tip: "Um garoto obeso e branco é treinado nas artes do ninjutsu e mesmo sendo inepto se torna um verdadeiro ninja.",
+    audio: "/audio/umninjapesada.mp3",
+  },
+  {
+    id: 66,
+    title: [
+      "Pulp Fiction: Tempo de Violência",
+      "pulp fiction",
+    ],
+    phrase: "Três histórias e muita violência ao estilo Tarantino.",
+    tip: "John Travolta, Samuel L. Jackson, Uma Thurman e Bruce Willis são o elenco de peso deste filme do Tarantino.",
+    audio: "/audio/pulpfiction.mp3",
+  },
+  {
+    id: 67,
+    title: [
+      "Monstros SA",
+      "monstros INC",
+      "MONSTER INC"
+    ],
+    phrase: "A Boo provou que quando não temos medo, nosso medo tem medo da gente.",
+    tip: "Nosso negócio é assutar crianças em seus quartos para gerar energia.",
+    audio: "/audio/mostrossa.mp3",
+  },
+  {
+    id: 68,
+    title: [
+      "Matrix",
+    ],
+    phrase: "E você qual pílula tomaria, a vermelha ou a azul?",
+    tip: "Um mundo onde estamos conectados por cabos e é preciso desconfiar da realidade para se libertar.",
+    audio: "/audio/matrix.mp3",
+  },
+  {
+    id: 69,
+    title: [
+      "Halloween",
+      "Noite do Terror",
+    ],
+    phrase: "O som parece Psicose, mas não é, parece Exorcista, mas não é!",
+    tip: "Michael Myers é o nome na frente deste filme de dia das bruxas. ",
+    audio: "/audio/halloween.mp3",
+  },
+  {
+    id: 70,
+    title: [
+      "Ghost: Do Outro Lado da Vida",
+      "Ghost",
+      "Do outro lado da vida."
+    ],
+    phrase: "Um dos beijos mais famosos do cinema... o beijo que ninguem sente.",
+    tip: "Ele morreu mas ao descobrir que sua namorada corre perigo ele procura uma medium para salvá-la. ",
+    audio: "/audio/ghost.mp3",
+  },
+  {
+    id: 71,
+    title: [
+      "A Família Addams",
+      "The Addams Family",
+      "Familia Addams"
+    ],
+    phrase: "Se você chutou Wandinha você tem menos de 25 anos.",
+    tip: "A Wandinha faz parte desta família junto com Tio CHico, Mortícia, Gomez e outros.",
+    audio: "/audio/familiaadams.mp3",
+  },
+  {
+    id: 72,
+    title: [
+      "Esqueceram de mim",
+      "Home Alone",
+    ],
+    phrase: "Um dos beijos mais famosos do cinema... o beijo que ninguem sente.",
+    tip: "Um menino que cria armadilhas para dois ladrões em sua casa enquanto todos viajam e esquecem dele em uma noite de natal.",
+    audio: "/audio/esquecerammim.mp3",
+  },
+  {
+    id: 73,
+    title: [
+      "A Era do Gelo",
+      "Ice Age",
+      "Era do Gelo"
+    ],
+    phrase: "A gente vai viver... a gente vai morrer!",
+    tip: "Um mamute, um tigre dentes de sabre e um bicho preguiça são a alma desta animação.",
+    audio: "/audio/eragelo.mp3",
+  },
+  {
+    id: 74,
+    title: [
+      "Clube da Luta",
+      "Fight Club",
+      "Clube de Combate"
+    ],
+    phrase: "Regra nº 1 do clube da luta: ",
+    tip: "Desiludido com o mundo corporativo, um homem faz um amigo misterioso e cria um clube secreto.",
+    audio: "/audio/clubeluta.mp3",
+  },
+  {
+    id: 75,
+    title: [
+      "Armageddon",
+      "Armaggedon",
+      "Armagedon",
+      "Armagedom"
+    ],
+    phrase: "Treinar astronautas para perfurar uma pedra ou treinar perfuradores para virar astronauta? ",
+    tip: "Um asteroide vai colidir com a Terra. A solução, colocar uma bomba nuclear no interior do corpo rochoso.",
+    audio: "/audio/armageddon.mp3",
+  },
+  {
+    id: 76,
+    title: [
+      "Aladdin",
+      "Aladin",
+      "Aladim",
+      "Aladdim"
+    ],
+    phrase: "Você tem direito a um desejo... Desejo ter desejos infinitos.",
+    tip: "Um jovem pobre, uma princesa comprometida, um gênio da lâmpada e o macaquinho Abu. ",
+    audio: "/audio/aladin.mp3",
   },
 ];
 
@@ -1156,7 +766,7 @@ export const TROPHIES: Trophy[] = [
     id: "johnW",
     name: "John Williams",
     image: "/images/johnwillians.png",
-    required: [2, 14, 15, 18, 27, 29, 36],
+    required: [2, 14, 15, 18, 27, 29, 36, 72],
     colors: {
       bg: "#f3e8ff",
       bgD: "#2a1040",
@@ -1182,7 +792,7 @@ export const TROPHIES: Trophy[] = [
     id: "animations",
     name: "Fanáticos das Animações",
     image: "/images/animations.png",
-    required: [23, 34, 40, 43, 48, 52],
+    required: [23, 34, 40, 43, 48, 52, 67, 73, 76],
     colors: {
       bg: "#fef9c3",
       bgD: "#2a2000",
@@ -1195,7 +805,7 @@ export const TROPHIES: Trophy[] = [
     id: "winners",
     name: "Ganhadores de 11 Oscares",
     image: "/images/titanic.png",
-    required: [19, 45],
+    required: [8, 19, 45],
     colors: {
       bg: "#fee2e2",
       bgD: "#3a0a0a",
@@ -1234,7 +844,7 @@ export const TROPHIES: Trophy[] = [
     id: "horror",
     name: "Horror Story",
     image: "/images/horrorstory.png",
-    required: [10, 55],
+    required: [10, 46, 55, 69],
     colors: {
       bg: "#fee2e2",
       bgD: "#3a0a0a",
@@ -1249,7 +859,7 @@ export const TROPHIES: Trophy[] = [
     image: "/images/booksandmovies.png",
     required: [
       2, 3, 5, 8, 9, 10, 13, 14, 17, 18, 19, 20, 24, 25, 27, 29, 31, 32, 33, 35,
-      36, 37, 45, 46, 50, 60,
+      36, 37, 45, 46, 50, 60, 71, 74,
     ],
     colors: {
       bg: "#fef9c3",
@@ -1267,7 +877,7 @@ export const TROPHIES: Trophy[] = [
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
       22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
       40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
-      58, 59, 60, 61, 62,
+      58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
     ],
     colors: {
       bg: "#f3e8ff",
