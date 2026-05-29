@@ -261,7 +261,6 @@ export default function MoviePops() {
           gap: 12px;
         }
       `}</style>
-      
 
       {/* Navbar */}
       <Navbar
@@ -350,7 +349,6 @@ export default function MoviePops() {
             </span>
             {showTrophies ? "Esconder troféus" : "Mostrar troféus"}
           </button>
-          
         </div>
 
         {/* TROPHY SHELF */}
@@ -364,9 +362,15 @@ export default function MoviePops() {
             marginBottom: showTrophies ? 28 : 0,
           }}
         >
-          <div
+          {/* <div
             style={{
               overflow: "hidden",
+            }}
+          > */}
+          <div
+            style={{
+              overflow: showTrophies ? "visible" : "hidden",
+              transition: "overflow .45s",
             }}
           >
             <div
