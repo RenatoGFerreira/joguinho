@@ -366,7 +366,7 @@ export default function MoviePops() {
         >
           <div
             style={{
-              // overflow: "hidden",
+              overflow: "hidden",
             }}
           >
             <div
