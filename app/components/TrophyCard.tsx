@@ -9,8 +9,17 @@ export default function TrophyCard({
   active,
   justUnlocked,
   dark,
+  correctIds,
 }: TrophyCardProps) {
   const [hover, setHover] = useState(false);
+  const unlockedCount = trophy.required.filter((id) =>
+    correctIds.has(id)
+  ).length;
+
+  const progress = Math.round((unlockedCount / trophy.required.length) * 100);
+
+  const isSilver = progress >= 50 && progress < 100;
+  const isGold = progress === 100;
 
   const rarity =
     trophy.required.length >= 10
@@ -52,6 +61,17 @@ export default function TrophyCard({
     : "linear-gradient(180deg,#f8fafc 0%,#e2e8f0 100%)";
 
   const inactiveBorder = dark ? "#334155" : "#cbd5e1";
+  const silverColors = {
+    bg: dark
+      ? "linear-gradient(180deg,#475569 0%,#0f172a 100%)"
+      : "linear-gradient(180deg,#f8fafc 0%,#cbd5e1 100%)",
+
+    border: "#cbd5e1",
+
+    glow: "#e2e8f0",
+
+    text: dark ? "#f8fafc" : "#334155",
+  };
 
   return (
     <div
@@ -65,7 +85,6 @@ export default function TrophyCard({
 
         margin: "9px",
         padding: "14px 10px 16px 10px",
-
         borderRadius: 32,
 
         overflow: "visible",
@@ -74,10 +93,18 @@ export default function TrophyCard({
         flexDirection: "column",
         alignItems: "center",
 
-        background: active ? activeBg : inactiveBg,
+        // background: active ? activeBg : inactiveBg,
+        background: active ? activeBg : isSilver ? silverColors.bg : inactiveBg,
 
+        // border: `1px solid ${
+        //   active ? trophy.colors.border + "66" : inactiveBorder
+        // }`,
         border: `1px solid ${
-          active ? trophy.colors.border + "66" : inactiveBorder
+          active
+            ? trophy.colors.border + "66"
+            : isSilver
+            ? silverColors.border
+            : inactiveBorder
         }`,
 
         transition: "all .45s cubic-bezier(.34,1.56,.64,1)",
@@ -264,7 +291,8 @@ export default function TrophyCard({
           zIndex: 5,
         }}
       >
-        {trophy.required.length}
+        {/* {trophy.required.length} */}
+        {progress}%
       </div>
 
       {/* EMBLEM */}
@@ -283,9 +311,7 @@ export default function TrophyCard({
 
           transition: "all .35s ease",
 
-          transform: hover
-            ? "translateY(-8px) scale(1.04)"
-            : "translateY(0px)",
+          transform: hover ? "translateY(-8px) scale(1.04)" : "translateY(0px)",
 
           zIndex: 4,
         }}
@@ -365,11 +391,23 @@ export default function TrophyCard({
 
             transition: "all .35s ease",
 
+            // filter: active
+            //   ? `
+            //     drop-shadow(0 0 20px ${trophy.colors.glow})
+            //     drop-shadow(0 10px 20px rgba(0,0,0,.45))
+            //   `
+            //   : "grayscale(1) brightness(.55)",
             filter: active
               ? `
-                drop-shadow(0 0 20px ${trophy.colors.glow})
-                drop-shadow(0 10px 20px rgba(0,0,0,.45))
-              `
+    drop-shadow(0 0 20px ${trophy.colors.glow})
+    drop-shadow(0 10px 20px rgba(0,0,0,.45))
+  `
+              : isSilver
+              ? `
+    grayscale(.15)
+    brightness(1.15)
+    drop-shadow(0 0 18px #e2e8f0)
+  `
               : "grayscale(1) brightness(.55)",
 
             overflow: "hidden",
@@ -380,20 +418,46 @@ export default function TrophyCard({
             alt={trophy.name}
             fill
             priority
-
             // CORREÇÃO DO WARNING DO NEXT
             sizes="140px"
+            // style={{
+            //   objectFit: "cover",
 
+            //   transform: hover ? "scale(1.18) translateY(-4px)" : "scale(1)",
+
+            //   transition: "all .35s ease",
+
+            //   zIndex: hover ? 50 : 1,
+            // }}
             style={{
               objectFit: "cover",
-
+            
               transform: hover
                 ? "scale(1.18) translateY(-4px)"
                 : "scale(1)",
-
+            
               transition: "all .35s ease",
-
+            
               zIndex: hover ? 50 : 1,
+            
+              filter: active
+                ? `
+                  drop-shadow(0 0 20px ${trophy.colors.glow})
+                  drop-shadow(0 10px 20px rgba(0,0,0,.45))
+                `
+                : isSilver
+                ? `
+                  grayscale(1)
+                  brightness(1.15)
+                  saturate(.2)
+                  contrast(1.15)
+                  sepia(.08)
+                  drop-shadow(0 0 14px rgba(115,115,115,.7))
+                `
+                : `
+                  grayscale(1)
+                  brightness(.55)
+                `,
             }}
           />
         </div>
@@ -415,18 +479,10 @@ export default function TrophyCard({
             : "#e2e8f0",
 
           border: `1px solid ${
-            active
-              ? trophy.colors.border + "66"
-              : dark
-              ? "#334155"
-              : "#cbd5e1"
+            active ? trophy.colors.border + "66" : dark ? "#334155" : "#cbd5e1"
           }`,
 
-          color: active
-            ? trophy.colors.border
-            : dark
-            ? "#64748b"
-            : "#94a3b8",
+          color: active ? trophy.colors.border : dark ? "#64748b" : "#94a3b8",
 
           fontSize: 9,
           fontWeight: 900,
@@ -435,9 +491,7 @@ export default function TrophyCard({
 
           textTransform: "uppercase",
 
-          boxShadow: active
-            ? `0 0 18px ${trophy.colors.glow}22`
-            : "none",
+          boxShadow: active ? `0 0 18px ${trophy.colors.glow}22` : "none",
 
           zIndex: 4,
         }}
@@ -459,15 +513,9 @@ export default function TrophyCard({
 
           textAlign: "center",
 
-          color: active
-            ? trophy.colors.text
-            : dark
-            ? "#64748b"
-            : "#94a3b8",
+          color: active ? trophy.colors.text : dark ? "#64748b" : "#94a3b8",
 
-          textShadow: active
-            ? "0 1px 0 rgba(255,255,255,.15)"
-            : "none",
+          textShadow: active ? "0 1px 0 rgba(255,255,255,.15)" : "none",
 
           zIndex: 4,
         }}

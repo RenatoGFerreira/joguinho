@@ -34,6 +34,7 @@ export type TrophyCardProps = {
   active: boolean;
   justUnlocked: boolean;
   dark: boolean;
+  correctIds: Set<number>;
 };
 
 export type MusicCardProps = {

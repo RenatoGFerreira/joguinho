@@ -6,6 +6,7 @@ type TrophyShelfProps = {
   dark: boolean;
   justUnlocked: Set<string>;
   isTrophyActive: (trophy: Trophy) => boolean;
+  correctIds: Set<number>;
 };
 
 export default function TrophyShelf({
@@ -13,6 +14,7 @@ export default function TrophyShelf({
   dark,
   justUnlocked,
   isTrophyActive,
+  correctIds,
 }: TrophyShelfProps) {
   return (
     <section style={{ marginBottom: 32 }}>
@@ -39,6 +41,7 @@ export default function TrophyShelf({
             active={isTrophyActive(trophy)}
             justUnlocked={justUnlocked.has(trophy.id)}
             dark={dark}
+            correctIds={correctIds}
           />
         ))}
       </div>

@@ -27,20 +27,16 @@ const Footer: React.FC<FooterProps> = ({ dark }) => {
             <span className="block md:inline">&copy; MoviePops</span>
             <span className="block md:inline">
               {" "}
-              | O desafio musical para cinéfilos. 
+              | O desafio musical para cinéfilos.
             </span>
           </p>
         </div>
 
         <div
-          className="mt-12 text-center text-sm"
+          className="mt-12 mb-24 text-center text-sm"
           style={{ color: dark ? "#64748b" : "#64748b" }}
         >
-          <p>
-            &copy; {new Date().getFullYear()} MoviePops. Projeto sem fins
-            comerciais.
-          </p>
-          <p>
+          <p className="mb-2">
             <a
               href="https://wa.me/5531991627440?text=Olá!%20Vi%20o%20site%20MoviePops%20e%20gostaria%20de%20criar%20um%20projeto%20parecido."
               target="_blank"
@@ -48,9 +44,13 @@ const Footer: React.FC<FooterProps> = ({ dark }) => {
               className="hover:underline transition-colors"
               style={{ color: dark ? "#94a3b8" : "#334155" }}
             >
-              Quer um sistema web para sua empresa, site ou jogo personalizado? Fale
-              comigo!
+              Quer um sistema web para sua empresa, site ou jogo personalizado?
+              Fale comigo!
             </a>
+          </p>
+          <p>
+            &copy; {new Date().getFullYear()} MoviePops. Projeto sem fins
+            comerciais.
           </p>
         </div>
       </div>
