@@ -24,9 +24,9 @@ export default function TrophyCard({
   const rarity =
     trophy.required.length >= 10
       ? "LENDÁRIO"
-      : trophy.required.length >= 6
+      : trophy.required.length >= 8
       ? "ÉPICO"
-      : trophy.required.length >= 4
+      : trophy.required.length >= 6
       ? "RARO"
       : "COMUM";
 
@@ -410,7 +410,7 @@ export default function TrophyCard({
   `
               : "grayscale(1) brightness(.55)",
 
-            overflow: "hidden",
+            // overflow: "hidden",
           }}
         >
           <Image

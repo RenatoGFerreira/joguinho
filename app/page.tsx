@@ -32,6 +32,15 @@ export default function MoviePops() {
   const [justUnlocked, setJustUnlocked] = useState<Set<string>>(new Set());
   const [justSilver, setJustSilver] = useState<Set<string>>(new Set());
   const [unlockNotifications, setUnlockNotifications] = useState<Trophy[]>([]);
+  const vibrate = (pattern: number | number[]) => {
+    if (
+      typeof window !== "undefined" &&
+      typeof navigator !== "undefined" &&
+      navigator.vibrate
+    ) {
+      navigator.vibrate(pattern);
+    }
+  };
 
   const handleUseHint = useCallback((songId: number) => {
     setUsedHintIds((prev) => new Set(prev).add(songId));
@@ -97,7 +106,7 @@ export default function MoviePops() {
         const wasActive = prevProgress === 100;
         const isActive = nextProgress === 100;
 
-        const wasSilver = prevProgress >= 50;
+        const wasSilver = prevProgress >= 50 && prevProgress < 100;
 
         const isSilver = nextProgress >= 50 && nextProgress < 100;
 
@@ -112,19 +121,26 @@ export default function MoviePops() {
         }
       });
 
+      if (newlyUnlocked.size > 0) {
+        vibrate([200, 100, 200, 100, 300]);
+      } else if (newlySilver.size > 0) {
+        vibrate([100, 80, 100]);
+      } else {
+        vibrate(100);
+      }
+
       if (newlyUnlocked.size > 0 || newlySilver.size > 0) {
         setJustUnlocked(newlyUnlocked);
         setJustSilver(newlySilver);
         const unlockedTrophies = TROPHIES.filter(
-          (t) =>
-            newlyUnlocked.has(t.id) ||
-            newlySilver.has(t.id)
+          (t) => newlyUnlocked.has(t.id) || newlySilver.has(t.id)
         );
         setUnlockNotifications(unlockedTrophies);
         setTimeout(() => {
           setJustUnlocked(new Set());
+          setJustSilver(new Set());
           setUnlockNotifications([]);
-        }, 3500);
+        }, 5000);
       }
       return next;
     });
@@ -138,6 +154,7 @@ export default function MoviePops() {
       setCorrectIds(new Set());
       setJustUnlocked(new Set());
       setUsedHintIds(new Set());
+      setJustSilver(new Set());
       localStorage.removeItem(STORAGE_KEY);
     }
   };
@@ -244,6 +261,7 @@ export default function MoviePops() {
           gap: 12px;
         }
       `}</style>
+      
 
       {/* Navbar */}
       <Navbar
@@ -332,6 +350,7 @@ export default function MoviePops() {
             </span>
             {showTrophies ? "Esconder troféus" : "Mostrar troféus"}
           </button>
+          
         </div>
 
         {/* TROPHY SHELF */}
@@ -347,7 +366,7 @@ export default function MoviePops() {
         >
           <div
             style={{
-              overflow: "hidden",
+              // overflow: "hidden",
             }}
           >
             <div
@@ -462,148 +481,138 @@ export default function MoviePops() {
         }}
       >
         {unlockNotifications.map((trophy) => {
-  const isSilver = justSilver.has(trophy.id);
+          const isSilver = justSilver.has(trophy.id);
 
-  return (
-    <div
-      key={trophy.id}
-      style={{
-        width: 300,
-        padding: "14px 16px",
-        borderRadius: 18,
-        display: "flex",
-        alignItems: "center",
-        gap: 14,
-        background: dark
-          ? `
+          return (
+            <div
+              key={trophy.id}
+              style={{
+                width: 300,
+                padding: "14px 16px",
+                borderRadius: 18,
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                background: dark
+                  ? `
             linear-gradient(
               180deg,
               ${trophy.colors.bgD},
               #0f172a
             )
           `
-          : `
+                  : `
             linear-gradient(
               180deg,
               ${trophy.colors.bg},
               #ffffff
             )
           `,
-        border: `2px solid ${
-          isSilver
-            ? "#cbd5e1"
-            : trophy.colors.border
-        }`,
-        boxShadow: isSilver
-          ? "0 12px 30px rgba(255,255,255,.25)"
-          : `0 12px 30px ${trophy.colors.glow}55`,
-        overflow: "hidden",
-        position: "relative",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: -30,
-          right: -30,
-          width: 80,
-          height: 80,
-          borderRadius: "50%",
-          background: isSilver
-            ? "#e5e7eb"
-            : trophy.colors.glow,
-          opacity: 0.25,
-          filter: "blur(24px)",
-        }}
-      />
+                border: `2px solid ${
+                  isSilver ? "#cbd5e1" : trophy.colors.border
+                }`,
+                boxShadow: isSilver
+                  ? "0 12px 30px rgba(255,255,255,.25)"
+                  : `0 12px 30px ${trophy.colors.glow}55`,
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: -30,
+                  right: -30,
+                  width: 80,
+                  height: 80,
+                  borderRadius: "50%",
+                  background: isSilver ? "#e5e7eb" : trophy.colors.glow,
+                  opacity: 0.25,
+                  filter: "blur(24px)",
+                }}
+              />
 
-      <div
-        style={{
-          width: 62,
-          height: 62,
-          borderRadius: 16,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: isSilver
-            ? "rgba(255,255,255,.12)"
-            : trophy.colors.border + "22",
+              <div
+                style={{
+                  width: 62,
+                  height: 62,
+                  borderRadius: 16,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: isSilver
+                    ? "rgba(255,255,255,.12)"
+                    : trophy.colors.border + "22",
 
-          border: `2px solid ${
-            isSilver
-              ? "#cbd5e1"
-              : trophy.colors.border
-          }`,
+                  border: `2px solid ${
+                    isSilver ? "#cbd5e1" : trophy.colors.border
+                  }`,
 
-          flexShrink: 0,
-          overflow: "hidden",
-        }}
-      >
-        <Image
-          src={trophy.image}
-          alt={trophy.name}
-          width={54}
-          height={54}
-          style={{
-            objectFit: "contain",
+                  flexShrink: 0,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={trophy.image}
+                  alt={trophy.name}
+                  width={54}
+                  height={54}
+                  style={{
+                    objectFit: "contain",
 
-            filter: isSilver
-              ? `
+                    filter: isSilver
+                      ? `
                 grayscale(1)
                 brightness(1.4)
                 contrast(1.1)
               `
-              : "none",
-          }}
-        />
-      </div>
+                      : "none",
+                  }}
+                />
+              </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 3,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 11,
-            fontWeight: 900,
-            letterSpacing: "0.08em",
-            color: isSilver
-              ? "#e2e8f0"
-              : trophy.colors.border,
-          }}
-        >
-          {isSilver
-            ? "🥈 TROFÉU PRATA"
-            : "🏆 NOVO TROFÉU"}
-        </span>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 3,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 900,
+                    letterSpacing: "0.08em",
+                    color: isSilver ? "#e2e8f0" : trophy.colors.border,
+                  }}
+                >
+                  {isSilver ? "🥈 TROFÉU PRATA" : "🏆 NOVO TROFÉU"}
+                </span>
 
-        <span
-          style={{
-            fontSize: 16,
-            fontWeight: 900,
-            color: dark ? "#fff" : "#0f172a",
-          }}
-        >
-          {trophy.name}
-        </span>
+                <span
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 900,
+                    color: dark ? "#fff" : "#0f172a",
+                  }}
+                >
+                  {trophy.name}
+                </span>
 
-        <span
-          style={{
-            fontSize: 12,
-            color: dark ? "#cbd5e1" : "#475569",
-          }}
-        >
-          {isSilver
-            ? "50% do troféu concluído!"
-            : "Conquista desbloqueada!"}
-        </span>
-      </div>
-    </div>
-  );
-})}
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: dark ? "#cbd5e1" : "#475569",
+                  }}
+                >
+                  {isSilver
+                    ? "50% do troféu concluído!"
+                    : "Conquista desbloqueada!"}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Footer */}
