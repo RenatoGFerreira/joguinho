@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect, type ChangeEvent, memo } from "react";
+import React, { useRef, useState, useEffect, type ChangeEvent } from "react";
 import { MusicCardProps } from "../types/types";
 import { normalizeText } from "../utils/normalize";
 

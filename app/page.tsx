@@ -105,10 +105,6 @@ export default function MoviePops() {
 
   const isTrophyActive = (t: Trophy) =>
     t.required.every((id) => correctIds.has(id));
-  // const handleUseHint = (songId: number) => {
-  //   setUsedHintIds((prev) => new Set(prev).add(songId));
-  // };
-  
 
   const handleResetProgress = () => {
     if (window.confirm("Tem certeza que deseja limpar todo o progresso?")) {
@@ -122,13 +118,9 @@ export default function MoviePops() {
     <div
       style={{
         minHeight: "100vh",
-
         background: bg,
-
         fontFamily: "inherit",
-
         boxSizing: "border-box",
-
         overflowX: "hidden",
       }}
     >
@@ -243,9 +235,7 @@ export default function MoviePops() {
       <main
         style={{
           maxWidth: 1100,
-
           margin: "0 auto",
-
           padding: "28px 20px 56px",
         }}
       >
@@ -253,15 +243,10 @@ export default function MoviePops() {
         <div
           style={{
             display: "flex",
-
             alignItems: "center",
-
             justifyContent: "space-between",
-
             gap: 12,
-
             marginBottom: 18,
-
             flexWrap: "wrap",
           }}
         >
@@ -269,11 +254,8 @@ export default function MoviePops() {
             <h2
               style={{
                 margin: 0,
-
                 fontSize: 24,
-
                 fontWeight: 900,
-
                 color: dark ? "#fff" : "#0f172a",
               }}
             >
@@ -283,7 +265,6 @@ export default function MoviePops() {
             <span
               style={{
                 fontSize: 13,
-
                 color: dark ? "#94a3b8" : "#64748b",
               }}
             >
@@ -296,31 +277,20 @@ export default function MoviePops() {
             onClick={() => setShowTrophies((prev) => !prev)}
             style={{
               height: 46,
-
               padding: "0 18px",
-
               borderRadius: 14,
-
               border: `1px solid ${dark ? "#334155" : "#cbd5e1"}`,
-
               background: dark
                 ? "linear-gradient(180deg,#1e293b,#0f172a)"
                 : "linear-gradient(180deg,#ffffff,#f1f5f9)",
-
               color: dark ? "#f8fafc" : "#0f172a",
-
               fontWeight: 800,
-
               fontSize: 14,
-
               cursor: "pointer",
-
               display: "flex",
               alignItems: "center",
               gap: 10,
-
               transition: "all .25s cubic-bezier(0.34,1.56,0.64,1)",
-
               boxShadow: dark
                 ? "0 10px 24px rgba(0,0,0,.28)"
                 : "0 10px 20px rgba(0,0,0,.08)",
@@ -333,7 +303,6 @@ export default function MoviePops() {
             >
               {showTrophies ? "🙈" : "👀"}
             </span>
-
             {showTrophies ? "Esconder troféus" : "Mostrar troféus"}
           </button>
         </div>
@@ -342,14 +311,10 @@ export default function MoviePops() {
         <div
           style={{
             display: "grid",
-
             gridTemplateRows: showTrophies ? "1fr" : "0fr",
-
             opacity: showTrophies ? 1 : 0,
-
             transition:
               "grid-template-rows .45s cubic-bezier(.34,1.56,.64,1), opacity .28s ease",
-
             marginBottom: showTrophies ? 28 : 0,
           }}
         >
@@ -363,11 +328,8 @@ export default function MoviePops() {
                 transform: showTrophies
                   ? "translateY(0px) scale(1)"
                   : "translateY(-18px) scale(.96)",
-
                 filter: showTrophies ? "blur(0px)" : "blur(6px)",
-
                 transition: "all .45s cubic-bezier(.34,1.56,.64,1)",
-
                 transformOrigin: "top center",
               }}
             >
@@ -382,15 +344,10 @@ export default function MoviePops() {
               <div
                 style={{
                   height: 1,
-
                   background: dark ? "#1e293b" : "#e2e8f0",
-
                   marginBottom: 28,
-
                   marginTop: 24,
-
                   opacity: showTrophies ? 1 : 0,
-
                   transition: "opacity .25s ease",
                 }}
               />
@@ -420,13 +377,9 @@ export default function MoviePops() {
         <div
           style={{
             display: "flex",
-
             justifyContent: "center",
-
             marginTop: 12,
-
             marginBottom: 40,
-
             padding: "0 20px",
           }}
         >
@@ -434,35 +387,22 @@ export default function MoviePops() {
             onClick={handleResetProgress}
             style={{
               height: 48,
-
               padding: "0 22px",
-
               border: "none",
-
               borderRadius: 14,
-
               cursor: "pointer",
-
               background: dark
                 ? "linear-gradient(180deg,#7f1d1d 0%,#450a0a 100%)"
                 : "linear-gradient(180deg,#f87171 0%,#ef4444 100%)",
 
               color: "#fff",
-
               fontSize: 14,
-
               fontWeight: 800,
-
               display: "flex",
-
               alignItems: "center",
-
               justifyContent: "center",
-
               gap: 10,
-
               transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
-
               boxShadow: dark
                 ? "0 10px 24px rgba(239,68,68,0.35)"
                 : "0 10px 20px rgba(239,68,68,0.25)",
@@ -485,17 +425,11 @@ export default function MoviePops() {
       <div
         style={{
           position: "fixed",
-
           top: 20,
-
           right: 20,
-
           display: "flex",
-
           flexDirection: "column",
-
           gap: 12,
-
           zIndex: 9999,
         }}
       >
@@ -504,17 +438,11 @@ export default function MoviePops() {
             key={trophy.id}
             style={{
               width: 300,
-
               padding: "14px 16px",
-
               borderRadius: 18,
-
               display: "flex",
-
               alignItems: "center",
-
               gap: 14,
-
               background: dark
                 ? `
                   linear-gradient(
@@ -530,36 +458,24 @@ export default function MoviePops() {
                     #ffffff
                   )
                 `,
-
               border: `2px solid ${trophy.colors.border}`,
-
               boxShadow: `
                 0 12px 30px ${trophy.colors.glow}55
               `,
-
               overflow: "hidden",
-
               position: "relative",
             }}
           >
             <div
               style={{
                 position: "absolute",
-
                 top: -30,
-
                 right: -30,
-
                 width: 80,
-
                 height: 80,
-
                 borderRadius: "50%",
-
                 background: trophy.colors.glow,
-
                 opacity: 0.25,
-
                 filter: "blur(24px)",
               }}
             />
@@ -567,23 +483,14 @@ export default function MoviePops() {
             <div
               style={{
                 width: 62,
-
                 height: 62,
-
                 borderRadius: 16,
-
                 display: "flex",
-
                 alignItems: "center",
-
                 justifyContent: "center",
-
                 background: trophy.colors.border + "22",
-
                 border: `2px solid ${trophy.colors.border}`,
-
                 flexShrink: 0,
-
                 overflow: "hidden",
               }}
             >
@@ -608,11 +515,8 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 11,
-
                   fontWeight: 900,
-
                   letterSpacing: "0.08em",
-
                   color: trophy.colors.border,
                 }}
               >
@@ -622,9 +526,7 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 16,
-
                   fontWeight: 900,
-
                   color: dark ? "#fff" : "#0f172a",
                 }}
               >
@@ -634,7 +536,6 @@ export default function MoviePops() {
               <span
                 style={{
                   fontSize: 12,
-
                   color: dark ? "#cbd5e1" : "#475569",
                 }}
               >
@@ -646,45 +547,8 @@ export default function MoviePops() {
       </div>
 
       {/* Footer */}
-      {/* <footer
-        style={{
-          borderTop: `1px solid ${dark ? "#1e293b" : "#e2e8f0"}`,
-
-          padding: "16px 20px",
-
-          textAlign: "center",
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-
-            fontSize: 11,
-
-            color: dark ? "#334155" : "#cbd5e1",
-
-            fontFamily: "system-ui",
-          }}
-        >
-          Criado por:{" "}
-          <a
-            href="https://www.instagram.com/rent.ferreira/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: dark ? "#334155" : "#cbd5e1",
-
-              textDecoration: "none",
-
-              fontWeight: 600,
-            }}
-          >
-            rent.ferreira
-          </a>
-        </p>
-      </footer> */}
       <footer>
-      <Footer dark={dark} />
+        <Footer dark={dark} />
       </footer>
     </div>
   );
